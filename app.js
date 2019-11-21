@@ -1,8 +1,10 @@
-var express = require('express');
-var router = require('./router');
+const express = require('express');
+const router = require('./router');
+const cors = require('cors');
 
-var app = express();
+const app = express();
 
+app.use(cors({origin: 'null'}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
