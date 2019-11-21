@@ -23,10 +23,7 @@ async function getToken(req, res) {
   const authId = req.headers['x-auth-id'];
   const authSecret = req.headers['x-auth-secret'];
   if (!authId || !authSecret) {
-    res.status(400)
-      .header({'Content-Type': 'application/json'})
-      .send(JSON.stringify({code: 'MISSING_KEY_SECRET', message: 'authId and authSecret headers must be supplied.'}));
-    return Promise.resolve(false);
+    return Promise.reject('MISSING_KEY_SECRET');
   }
   const authToken =  btoa(authId + ':' + authSecret);
 
@@ -47,7 +44,7 @@ async function getToken(req, res) {
       (err, response, body) => {
         if (response.statusCode !== 200) {
           console.log('Error fetching token', response.statusMessage, err);
-          return reject(false);
+          return reject('TOKEN_ERROR');
         }
         const token = JSON.parse(body);
         const ONE_SECOND_IN_MILLISECONDS = 1000;
@@ -56,7 +53,7 @@ async function getToken(req, res) {
       });
     } catch(e) {
       console.log('Error fetching token', e);
-      return reject(false);      
+      return reject('TOKEN_ERROR');      
     }
   });
 
