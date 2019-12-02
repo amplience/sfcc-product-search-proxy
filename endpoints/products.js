@@ -1,22 +1,13 @@
-const request = require('request');
-const _ = require('lodash');
-const getToken = require('./get-token');
+const getProducts = require('./get-products');
 
-async function products(req, res) {
-  const token = await getToken(req);
-  if (!token) {
-    return;
+function products(req, res) {
+  const {ids} = req.body;
+  const query = {
+    bool_query: {
+      should: ids.map(search_phrase => ({text_query: {fields: ['id'], search_phrase}}))
+    }
   }
-  const {ids, endpoint, site_id} = req.body;
-  try {
-    request.get({
-      url: _.trimEnd(endpoint, '/') + '/s/-/dw/data/v19_10/products/' + ids.join(','),
-      headers: {
-        Authorization: 'Bearer ' + token
-      },
-      qs: {expand: 'images', site_id}
-    });
-  } catch (e) {}
+  return getProducts(req, res, query);
 }
 
 module.exports = products;
