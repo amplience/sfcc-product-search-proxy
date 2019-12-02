@@ -7,7 +7,8 @@ function products(req, res) {
       should: ids.map(search_phrase => ({text_query: {fields: ['id'], search_phrase}}))
     }
   }
-  return getProducts(req, res, query);
+  const PAGE_SIZE = 100;
+  return getProducts(req, res, query, PAGE_SIZE);
 }
 
 module.exports = products;

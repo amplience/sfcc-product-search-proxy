@@ -3,14 +3,13 @@ const _ = require('lodash');
 const getToken = require('./get-token');
 const config = require('../config');
 
-async function getProducts(req, res, query) {
+async function getProducts(req, res, query, PAGE_SIZE = 20) {
   try {
     const token = await getToken(req);
     if (!token) {
       return;
     }
     const {site_id, endpoint, page} = req.body;
-    const PAGE_SIZE = 20;
     const start = PAGE_SIZE * page;
     const rejectUnauthorized = !config.isDev;
 
