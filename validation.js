@@ -11,7 +11,7 @@ module.exports = {
     }
   },
   products: {
-    body: {
+    query: {
       endpoint: joi.string().uri().trim().required(),
       ids: joi.array().items(joi.string()).required(),
       site_id: joi.string().trim().required()
