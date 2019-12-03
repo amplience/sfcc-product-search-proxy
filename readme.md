@@ -1,3 +1,5 @@
+[![Amplience Dynamic Content](header.png)](https://amplience.com/dynamic-content)
+
 # SFCC Product Search Proxy Server
 
 This project creates a proxy server that is meant to be used with the /\SFCC product selector ui url/\\.
@@ -59,11 +61,11 @@ headers;
     x-auth-id; AUTH-ID
     x-auth-secret; AUTH-SECRET
     sfccUrl; https://SFCCURL
-    endpoint; https://endpoint.endpoint.com
 body;
     {
 	"site_id":"SITEID",
 	"search_text": "shoe",
+	"endpoint": "https://endpoint.endpoint.com",
         "catalog_id": "CATALOGID"
 	"page": 0
     }
@@ -84,6 +86,7 @@ type; GET
 endpoint; /products
 params;
     site_id = SITEID
+    endpoint = https://endpoint.endpoint.com
     ids[] = 123456
     ids[] = 123457
 headers;
@@ -91,7 +94,6 @@ headers;
     x-auth-id; AUTH-ID
     x-auth-secret; AUTH-SECRET
     sfccUrl; https://SFCCURL
-    endpoint; https://endpoint.endpoint.com
 
 http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint.com&ids[]=123456&ids[]=123457
 ```
