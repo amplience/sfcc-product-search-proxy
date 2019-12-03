@@ -7,3 +7,7 @@ Build locally:
 $ npm install
 $ npm install -g nodemon
 ```
+#### Running the Server Locally
+```
+$ nodemon
+```
