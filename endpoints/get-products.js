@@ -29,7 +29,7 @@ console.log(site_id, endpoint, page);
       }
     },
     (err, response, body) => {
-      if (response.statusCode !== 200) {
+      if (err || response.statusCode !== 200) {
         res.status(500).json({code: 'PRODUCT_SEARCH_ERROR', message: 'Error searching for products'});
         console.log(err);
         return;
