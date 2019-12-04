@@ -28,36 +28,39 @@ async function getToken(req, res) {
     res.status(400).json({code: 'MISSING_KEY_SECRET', message: 'authId and authSecret headers must be supplied.'});
     return Promise.reject(false);
   }
-  const authToken =  btoa(authId + ':' + authSecret);
+  const authToken = btoa(authId + ':' + authSecret);
 
   return new Promise((resolve, reject) => {
     const existingToken = tokens[authToken];
     if (existingToken && !tokenExpired(existingToken.expires)) {
       return resolve(existingToken.token);
     }
-    
+
     try {
       request.post({
-        url: authUrl,
-        headers: {
-          Authorization: 'Basic ' + authToken,
-        },
-        form: {grant_type: 'client_credentials'}
-      }, 
-      (err, response, body) => {
-        if (response.statusCode !== 200) {
-          console.log('Error fetching token', response.statusMessage, err);
-          res.status(500).json({code: 'TOKEN_ERROR', message: 'Error getting token'});
-          return reject(false);
-        }
-        const token = JSON.parse(body);
-        const ONE_SECOND_IN_MILLISECONDS = 1000;
-        tokens[authToken] = {token: token.access_token, expires: new Date().getTime() + (token.expires_in * ONE_SECOND_IN_MILLISECONDS)};
-        return resolve(token.access_token);
-      });
-    } catch(e) {
+            url: authUrl,
+            headers: {
+              Authorization: 'Basic ' + authToken,
+            },
+            form: {grant_type: 'client_credentials'}
+          },
+          (err, response, body) => {
+            if (err || response.statusCode !== 200) {
+              console.log('Error fetching token', err, (response.statusMessage) ? response.statusMessage : _);
+              res.status(500).json({code: 'TOKEN_ERROR', message: 'Error getting token'});
+              return reject(false);
+            }
+            const token = JSON.parse(body);
+            const ONE_SECOND_IN_MILLISECONDS = 1000;
+            tokens[authToken] = {
+              token: token.access_token,
+              expires: new Date().getTime() + (token.expires_in * ONE_SECOND_IN_MILLISECONDS)
+            };
+            return resolve(token.access_token);
+          });
+    } catch (e) {
       res.status(500).json({code: 'TOKEN_ERROR', message: 'Error getting token'});
-      return reject(false);      
+      return reject(false);
     }
   });
 }
