@@ -8,7 +8,10 @@
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
   "devDependencies": {
-    "aws-cdk": "^1.0.0"
+    "aws-cdk": "^1.0.0",
+    "@types/node": "12.6.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "@aws-cdk/core": "^1.0.0",
