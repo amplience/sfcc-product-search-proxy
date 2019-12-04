@@ -42,8 +42,8 @@ async function getProducts(req, res, query) {
 
       if (hits) {
         items = hits.map(hit => ({
-          id: hit.id, 
-          name: hit.name.default,
+          id: hit.id,
+          name: (hit.name && hit.name.default) ? hit.name.default : null,
           image: _.get(hit, 'image.abs_url', null)
         }));
       }
@@ -54,7 +54,7 @@ async function getProducts(req, res, query) {
     console.log('An unkown error occured', error);
     res.status(500).json({code: 'UNKNOWN', message: 'An unknown error occured'});
   }
-  
+
 }
 
 module.exports = getProducts;
