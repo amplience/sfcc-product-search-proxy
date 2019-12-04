@@ -10,7 +10,7 @@ function productSearch(req, res) {
       ]
     }
   };
-  return getProducts(req, res, query);
+  getProducts(req, res, query, req.body);
 }
 
 module.exports = productSearch;
