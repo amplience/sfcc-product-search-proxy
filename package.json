@@ -14,11 +14,11 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@aws-cdk/core": "^1.0.0",
+    "aws-serverless-express": "^3.3.6",
     "@aws-cdk/aws-iam": "^1.0.0",
     "@aws-cdk/aws-lambda": "^1.0.0",
-    "@aws-cdk/core": "^1.0.0",
     "sha256-file": "^1.0.0",
-    "aws-serverless-express": "^3.3.6",
     "btoa": "^1.2.1",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
