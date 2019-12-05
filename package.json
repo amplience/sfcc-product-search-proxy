@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "node ./bin/www",
+    "cdk": "cdk",
     "start": "node ./bin/www",
     "watch": "NODE_ENV=development nodemon ./bin/www",
-    "debug": "NODE_ENV=development nodemon --inspect ./bin/www",
+    "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
   "devDependencies": {
     "aws-cdk": "^1.0.0",
