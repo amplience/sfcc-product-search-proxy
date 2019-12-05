@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "btoa": "^1.2.1",
+    "debug": "^4.1.1",
     "cors": "^2.8.5",
-    "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-validation": "^1.0.3",
     "joi": "^14.3.1",
