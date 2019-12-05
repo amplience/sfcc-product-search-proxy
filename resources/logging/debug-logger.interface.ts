@@ -1,9 +1,9 @@
 export interface DebugLogger {
-  debug(message: string, ...context: any[]);
+  debug(message: string, ...context: any[]): void;
 
-  info(message: string, ...context: any[]);
+  info(message: string, ...context: any[]): void;
 
-  warn(message: string, ...context: any[]);
+  warn(message: string, ...context: any[]): void;
 
-  error(message: string, ...context: any[]);
+  error(message: string, ...context: any[]): void;
 }

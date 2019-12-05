@@ -8,10 +8,12 @@
   },
   "scripts": {
     "start": "node ./bin/www",
+    "build": "tsc",
     "watch": "NODE_ENV=development nodemon ./bin/www",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
   "dependencies": {
+    "commonjs": "0.0.1",
     "@types/node": "^12.12.14",
     "btoa": "^1.2.1",
     "cors": "^2.8.5",
@@ -23,10 +25,9 @@
     "nodemon": "^2.0.1",
     "request": "^2.88.0",
     "ts-loader": "^5.3.3",
-    "ts-node": "^7.0.1"
+    "ts-node": "^8.4.1"
   },
   "devDependencies": {
-    "typescript": "^3.3.3333",
-    "tslint": "^5.13.0"
+    "typescript": "^3.6.3"
   }
 }
