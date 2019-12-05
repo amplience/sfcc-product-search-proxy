@@ -8,9 +8,9 @@ interface SupportLevels {
   error: debug.IDebugger;
 }
 
-export class DebugLoggerImpl implements DebugLogger {
+class DebugLoggerImpl implements DebugLogger {
   private loggers: SupportLevels;
-  private additionalContextFn: () => {};
+  private additionalContextFn?: () => {};
 
   constructor(namespace: string, additionalContext?: () => {}) {
     this.setupLogs(namespace);
@@ -36,14 +36,14 @@ export class DebugLoggerImpl implements DebugLogger {
   private setupLogs(namespace: string) {
 
     this.loggers = {
-      debug: debug(`${namespace}:debug`),
-      info: debug(`${namespace}:info`),
-      warn: debug(`${namespace}:warn`),
-      error: debug(`${namespace}:error`)
+      debug: debug(`${ namespace }:debug`),
+      info: debug(`${ namespace }:info`),
+      warn: debug(`${ namespace }:warn`),
+      error: debug(`${ namespace }:error`)
     };
 
     Object.keys(this.loggers).forEach(key => {
-      const item = this.loggers[key];
+      const item = this.loggers[ key ];
       item.log = console.log.bind(console);
     });
   }
@@ -55,6 +55,12 @@ export class DebugLoggerImpl implements DebugLogger {
         context.push(loggingContext);
       }
     }
-    this.loggers[level].apply(null, [message].concat(context));
+    this.loggers[ level ].apply(null, [ message ].concat(context));
   }
+}
+
+const logger = new DebugLoggerImpl(process.env.APP_NAME || 'sfcc-product-search-proxy');
+
+export function getLogger(): DebugLogger {
+  return logger;
 }
