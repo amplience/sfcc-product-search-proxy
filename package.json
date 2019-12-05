@@ -8,6 +8,7 @@
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
   "dependencies": {
+    "chai": "^4.1.2",
     "btoa": "^1.2.1",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
