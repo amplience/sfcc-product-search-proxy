@@ -5,7 +5,7 @@ const config = require('../config');
 
 async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
   try {
-    const token = await getToken(req);
+    const token = await getToken(req, res);
     if (!token) {
       return;
     }
