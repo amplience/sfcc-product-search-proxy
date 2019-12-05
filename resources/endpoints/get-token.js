@@ -3,7 +3,7 @@ const btoa = require('btoa');
 
 const tokens = {};
 const ONE_MINUTE = 60000;
-
+const logger = require("../resources/logging/debug-logger").getLogger();
 
 // Remove expired tokens
 setInterval(() => {
@@ -46,7 +46,7 @@ async function getToken(req, res) {
           },
           (err, response, body) => {
             if (err || response.statusCode !== 200) {
-              console.log('Error fetching token', err, (response.statusMessage) ? response.statusMessage : _);
+              logger.error('Error fetching token', err, (response.statusMessage) ? response.statusMessage : _);
               res.status(500).json({code: 'TOKEN_ERROR', message: 'Error getting token'});
               return reject(false);
             }

@@ -2,10 +2,14 @@
   "name": "sfcc-proxy",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "=10.15.1",
+    "npm": ">=6.8.0"
+  },
   "scripts": {
-    "build": "node ./bin/www",
     "cdk": "cdk",
     "start": "node ./bin/www",
+    "build": "tsc",
     "watch": "NODE_ENV=development nodemon ./bin/www",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
@@ -13,7 +17,7 @@
     "aws-cdk": "^1.0.0",
     "@types/node": "12.6.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.3"
   },
   "dependencies": {
     "@aws-cdk/aws-iam": "^1.0.0",
@@ -21,14 +25,18 @@
     "@aws-cdk/core": "^1.0.0",
     "sha256-file": "^1.0.0",
     "aws-serverless-express": "^3.3.6",
+    "commonjs": "0.0.1",
+    "@types/node": "^12.12.14",
     "btoa": "^1.2.1",
     "cors": "^2.8.5",
-    "debug": "~2.6.9",
+    "debug": "^4.1.1",
     "express": "~4.16.1",
     "express-validation": "^1.0.3",
     "joi": "^14.3.1",
     "lodash": "^4.17.15",
     "nodemon": "^2.0.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^8.4.1"
   }
 }
