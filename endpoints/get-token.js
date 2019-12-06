@@ -46,7 +46,7 @@ async function getToken(req, res) {
           },
           (err, response, body) => {
             if (err || response.statusCode !== 200) {
-              logger.error('Error fetching token', err, (response.statusMessage) ? response.statusMessage : _);
+              logger.error('Error fetching token', err, (response.statusMessage) ? response.statusMessage : 'unknown');
               res.status(500).json({code: 'TOKEN_ERROR', message: 'Error getting token'});
               return reject(false);
             }
