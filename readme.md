@@ -34,8 +34,8 @@ headers;
     Content-Type; application/json
     x-auth-id; AUTH-ID
     x-auth-secret; AUTH-SECRET
-    "proxyUrl": "http://localhost:8080",
-    "sfccUrl": "https://SFCCURL",
+    proxyUrl; http://localhost:8080
+    sfccUrl; https://SFCCURL
 body;
     {
 	"site_id":"SITEID",
@@ -66,8 +66,8 @@ headers;
     Content-Type; application/json
     x-auth-id; AUTH-ID
     x-auth-secret; AUTH-SECRET
-    "proxyUrl": "http://localhost:8080",
-    "sfccUrl": "https://SFCCURL",
+    proxyUrl; http://localhost:8080
+    sfccUrl; https://SFCCURL
 
 http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint.com&ids[]=123456&ids[]=123457
 ```
