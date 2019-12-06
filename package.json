@@ -19,6 +19,7 @@
     "btoa": "^1.2.1",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
+    "@types/mocha": "^5.2.6",
     "express": "~4.16.1",
     "express-validation": "^1.0.3",
     "joi": "^14.3.1",
