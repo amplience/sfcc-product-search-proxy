@@ -19,11 +19,13 @@ $ nodemon
 
 #### Product Search
 
-1. site_ids     | String    |
-2. search_text  | String    | minimum length: 3
-3. endpoint     | String    |
-4. catalog_id?  | String    |
-5. page         | Int       |
+| Parameter   | Type   |          |
+| ----------- |:------:| --------:|
+| site_ids    | String | Required |
+| search_text | String | Required |
+| endpoint    | String | Required |
+| catalog_id  | String | Optional |
+| page        | Int    | Required |
 
 request;
 
@@ -48,9 +50,11 @@ body;
 
 #### Products
 
-1. Endpoint | String
-2. ids      | Array
-3. site_id  | String
+| Parameter | Type    |          |
+| --------- |:-------:| --------:|
+| Endpoint  | String  | Required |
+| ids       | Array   | Required |
+| site_id   | String  | Required |
 
 request example;
 
