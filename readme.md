@@ -19,13 +19,13 @@ $ nodemon
 
 #### Product Search
 
-| Parameter   | Type   |          |
-| ----------- |:------:| --------:|
-| site_ids    | String | Required |
-| search_text | String | Required |
-| endpoint    | String | Required |
-| catalog_id  | String | Optional |
-| page        | Int    | Required |
+| Parameter   | Type   |          | Description |
+| ----------- |:------:| --------:|------------:|
+| site_id     | String | Required | Id of site |
+| search_text | String | Required | text based search parameter |
+| endpoint    | String | Required | SFCC server url |
+| catalog_id  | String | Optional | Filters products through a specified catalog |
+| page        | Int    | Required | Item return page |
 
 request;
 
@@ -48,13 +48,13 @@ body;
     }
 ```
 
-#### Products
+#### Get Products by Ids
 
-| Parameter | Type    |          |
-| --------- |:-------:| --------:|
-| Endpoint  | String  | Required |
-| ids       | Array   | Required |
-| site_id   | String  | Required |
+| Parameter | Type    |          | Description |
+| --------- |:-------:| --------:| -----------:|
+| Endpoint  | String  | Required | SFCC server url |
+| ids       | Array   | Required | An array of product Ids |
+| site_id   | String  | Required | Id of site |
 
 request example;
 
@@ -76,5 +76,22 @@ headers;
 http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint.com&ids[]=123456&ids[]=123457
 ```
 
-## CDK
+#### Extension Example
+
+This example is indicative of using the proxy server with Dynamic Contents extension feature.
+
+```
+"ui:extension": {
+    "url": "http://localhost:3000/",
+    "params": {
+        "proxyUrl": "http://localhost:8080",
+        "sfccUrl": https://SFCCURL,
+        "authSecret": AUTH-SECRET,
+        "authClientId": AUTH-ID,
+        "siteId": SITEID,
+        "backend": "SFCC",
+        "catalogs": []
+    }
+}
+```
 
