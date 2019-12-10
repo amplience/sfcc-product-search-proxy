@@ -36,7 +36,6 @@ headers;
     Content-Type; application/json
     x-auth-id; AUTH-ID
     x-auth-secret; AUTH-SECRET
-    proxyUrl; http://localhost:8080
     sfccUrl; https://SFCCURL
 body;
     {
@@ -70,7 +69,6 @@ headers;
     Content-Type; application/json
     x-auth-id; AUTH-ID
     x-auth-secret; AUTH-SECRET
-    proxyUrl; http://localhost:8080
     sfccUrl; https://SFCCURL
 
 http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint.com&ids[]=123456&ids[]=123457
@@ -78,13 +76,10 @@ http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint
 
 #### Extension Example
 
-This example is indicative of using the proxy server with Dynamic Contents extension feature.
-
 ```
 "ui:extension": {
     "url": "http://localhost:3000/",
     "params": {
-        "proxyUrl": "http://localhost:8080",
         "sfccUrl": https://SFCCURL,
         "authSecret": AUTH-SECRET,
         "authClientId": AUTH-ID,
