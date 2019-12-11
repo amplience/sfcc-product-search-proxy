@@ -43,9 +43,8 @@ var nock_1 = __importDefault(require("nock"));
 var ava_1 = __importDefault(require("ava"));
 var get_token_1 = __importDefault(require("../../endpoints/get-token"));
 var simple_response_1 = require("../simple-response");
-var products_1 = __importDefault(require("../../endpoints/products"));
-ava_1["default"]('should succeed when valid get by ids request', function (t) { return __awaiter(_this, void 0, void 0, function () {
-    var req, res, subject;
+ava_1["default"]('should succeed when valid request', function (t) { return __awaiter(_this, void 0, void 0, function () {
+    var req, authToken, res, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -53,32 +52,21 @@ ava_1["default"]('should succeed when valid get by ids request', function (t) { 
                     headers: {
                         'x-auth-id': 'myId',
                         'x-auth-secret': 'mySecret'
-                    },
-                    query: {
-                        ids: [1],
-                        site_id: 'mysite',
-                        endpoint: 'http://example1.com'
                     }
                 };
-                setUpMockServers('mysite', [{
-                        id: 1,
-                        name: {
-                            "default": 'simple'
-                        },
-                        image: { abs_url: 'simple-cat.jpg' }
-                    }], 200, 200, 'http://example1.com');
+                authToken = 'si324u223njnpipuh2pu3n4if';
+                setUpMockServers(authToken, 200);
                 res = new simple_response_1.SimpleResponse();
-                subject = new products_1["default"](get_token_1["default"]);
-                return [4 /*yield*/, subject.find(req, res)];
+                return [4 /*yield*/, get_token_1["default"](req, res)];
             case 1:
-                _a.sent();
-                t.is(res.code, 200);
+                result = _a.sent();
+                t.is(result, authToken);
                 return [2 /*return*/];
         }
     });
 }); });
-ava_1["default"]('should fail when unable to get token when finding by id', function (t) { return __awaiter(_this, void 0, void 0, function () {
-    var req, res, subject;
+ava_1["default"]('should return 500 and throw when bad request', function (t) { return __awaiter(_this, void 0, void 0, function () {
+    var req, authToken, res, result, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -86,33 +74,31 @@ ava_1["default"]('should fail when unable to get token when finding by id', func
                     headers: {
                         'x-auth-id': 'myId',
                         'x-auth-secret': 'mySecret'
-                    },
-                    query: {
-                        ids: [1],
-                        site_id: 'mysite',
-                        endpoint: 'http://example1.com'
                     }
                 };
-                setUpMockServers('mysite', [{
-                        id: 1,
-                        name: {
-                            "default": 'simple'
-                        },
-                        image: { abs_url: 'simple-cat.jpg' }
-                    }], 403, 200, 'http://example2.com');
+                authToken = 'si324u223njnpipuh2pu3n4if';
+                setUpMockServers(authToken, 400);
                 res = new simple_response_1.SimpleResponse();
-                subject = new products_1["default"](get_token_1["default"]);
-                return [4 /*yield*/, subject.find(req, res)];
+                _a.label = 1;
             case 1:
-                _a.sent();
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, get_token_1["default"](req, res)];
+            case 2:
+                result = _a.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                e_1 = _a.sent();
+                return [3 /*break*/, 4];
+            case 4:
                 t.is(res.code, 500);
                 t.is(res.body.code, 'TOKEN_ERROR');
+                t.is((!result), true);
                 return [2 /*return*/];
         }
     });
 }); });
-ava_1["default"]('find products by Id should fail when sfcc returns 500', function (t) { return __awaiter(_this, void 0, void 0, function () {
-    var req, res, subject;
+ava_1["default"]('should return 500 and throw when server error', function (t) { return __awaiter(_this, void 0, void 0, function () {
+    var req, authToken, res, result, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -120,44 +106,35 @@ ava_1["default"]('find products by Id should fail when sfcc returns 500', functi
                     headers: {
                         'x-auth-id': 'myId',
                         'x-auth-secret': 'mySecret'
-                    },
-                    query: {
-                        ids: [1],
-                        site_id: 'mysite',
-                        endpoint: 'http://example.com'
                     }
                 };
-                setUpMockServers('mysite', [{
-                        id: 1,
-                        name: {
-                            "default": 'simple'
-                        },
-                        image: { abs_url: 'simple-cat.jpg' }
-                    }], 200, 504, 'http://example.com');
+                authToken = 'si324u223njnpipuh2pu3n4if';
+                setUpMockServers(authToken, 504);
                 res = new simple_response_1.SimpleResponse();
-                subject = new products_1["default"](get_token_1["default"]);
-                return [4 /*yield*/, subject.find(req, res)];
+                _a.label = 1;
             case 1:
-                _a.sent();
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, get_token_1["default"](req, res)];
+            case 2:
+                result = _a.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                e_2 = _a.sent();
+                return [3 /*break*/, 4];
+            case 4:
                 t.is(res.code, 500);
-                t.is(res.body.code, 'PRODUCT_SEARCH_ERROR');
+                t.is(res.body.code, 'TOKEN_ERROR');
+                t.is((!result), true);
                 return [2 /*return*/];
         }
     });
 }); });
-function setUpMockServers(siteId, results, tokenCode, sfccCode, serverPath) {
+function setUpMockServers(token, tokenCode) {
     if (tokenCode === void 0) { tokenCode = 200; }
-    if (sfccCode === void 0) { sfccCode = 200; }
     nock_1["default"]('https://account.demandware.com')
         .post('/dw/oauth2/access_token')
         .reply(tokenCode, {
-        access_token: 'myToken',
+        access_token: token,
         expires_in: 2303208
-    });
-    nock_1["default"](serverPath)
-        .post("/s/-/dw/data/v19_10/product_search?site_id=" + siteId)
-        .reply(sfccCode, {
-        hits: results,
-        total: results.length
     });
 }

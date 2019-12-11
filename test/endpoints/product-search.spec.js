@@ -77,7 +77,7 @@ ava_1["default"]('should succeed when valid request', function (t) { return __aw
         }
     });
 }); });
-ava_1["default"].serial('should fail when unable to get token', function (t) { return __awaiter(_this, void 0, void 0, function () {
+ava_1["default"]('should fail when unable to get token', function (t) { return __awaiter(_this, void 0, void 0, function () {
     var req, res, subject;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -111,7 +111,7 @@ ava_1["default"].serial('should fail when unable to get token', function (t) { r
         }
     });
 }); });
-ava_1["default"].serial('should fail when unable to get response from sfcc', function (t) { return __awaiter(_this, void 0, void 0, function () {
+ava_1["default"]('should fail when unable to get response from sfcc', function (t) { return __awaiter(_this, void 0, void 0, function () {
     var req, res, subject;
     return __generator(this, function (_a) {
         switch (_a.label) {

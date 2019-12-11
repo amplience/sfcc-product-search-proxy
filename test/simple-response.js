@@ -4,7 +4,6 @@ var SimpleResponse = /** @class */ (function () {
     function SimpleResponse() {
     }
     SimpleResponse.prototype.status = function (code) {
-        console.log("got value set in resp");
         this.code = code;
         return this;
     };

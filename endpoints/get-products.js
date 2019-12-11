@@ -5,6 +5,7 @@ const config = require('../config');
 const logger = require("../resources/logging/debug-logger").getLogger();
 
 async function getProducts(req, res, query, params, tokenSupplier, PAGE_SIZE = 20) {
+
   return new Promise(async (resolve) => {
     let token;
   try {
@@ -37,7 +38,6 @@ async function getProducts(req, res, query, params, tokenSupplier, PAGE_SIZE = 2
       }
     },
    async (err, response, body) => {
-      console.log(`got response ${response.statusCode}`)
       if (err || response.statusCode !== 200) {
         res.status(500).json({code: 'PRODUCT_SEARCH_ERROR', message: 'Error searching for products'});
         logger.error('none 200 response from sfcc get products.', err);
@@ -49,15 +49,6 @@ async function getProducts(req, res, query, params, tokenSupplier, PAGE_SIZE = 2
       const pageSettings = {numPages, curPage: page, total};
 
       if (hits) {
-        console.log(`fuck yeah ${JSON.stringify(hits)}`);
-        hits.forEach(x => {
-          console.log(`bout to `)
-          console.log(_.get(x, 'image.abs_url', null))
-          console.log(`done  brash `)
-        });
-
-        console.log('here it is boi');
-
         items = hits.map(hit => ({
           id: hit.id,
           name: (hit.name && hit.name.default) ? hit.name.default : null,
@@ -68,14 +59,12 @@ async function getProducts(req, res, query, params, tokenSupplier, PAGE_SIZE = 2
       res.status(200).json({items, page: pageSettings});
       return resolve()
     });
-    console.log(`#triggered`)
   } catch (error) {
     logger.error('An unkown error occured', error);
     res.status(500).json({code: 'UNKNOWN', message: 'An unknown error occured'});
     return resolve();
   }
   });
-  console.log('done sone ')
 }
 
 module.exports = getProducts;

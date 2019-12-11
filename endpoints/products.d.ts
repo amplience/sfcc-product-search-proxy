@@ -1,6 +1,6 @@
-import { TokenSupplier } from './token-supplier.js';
-import { Request } from './model/request.js';
-import { Response } from './model/response.js';
+import { TokenSupplier } from './token-supplier';
+import { Request } from './model/request';
+import { Response } from './model/response';
 
 export default class products {
   constructor(tokenSupplier: TokenSupplier);

@@ -15,7 +15,7 @@ class products {
       }
     };
     const PAGE_SIZE = 100;
-    await getProducts(req, res, query, req.query, PAGE_SIZE, this.tokenSupplier);
+    await getProducts(req, res, query, req.query, this.tokenSupplier, PAGE_SIZE);
   }
 }
 

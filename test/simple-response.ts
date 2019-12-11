@@ -5,7 +5,6 @@ export class SimpleResponse implements Response {
   public body?: any;
 
   status(code: number): Response {
-    console.log(`got value set in resp`);
     this.code = code;
     return this;
   }

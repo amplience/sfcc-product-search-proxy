@@ -36,7 +36,7 @@ test('should succeed when valid request', async t => {
   t.is(res.code, 200)
 });
 
-test.serial('should fail when unable to get token', async t => {
+test('should fail when unable to get token', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
@@ -67,7 +67,7 @@ test.serial('should fail when unable to get token', async t => {
   t.is(res.body.code, 'TOKEN_ERROR');
 });
 
-test.serial('should fail when unable to get response from sfcc', async t => {
+test('should fail when unable to get response from sfcc', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
