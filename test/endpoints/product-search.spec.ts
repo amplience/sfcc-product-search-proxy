@@ -5,64 +5,7 @@ import { Request } from '../../endpoints/model/request';
 import productSearch from '../../endpoints/product-search';
 import getToken from '../../endpoints/get-token';
 
-// test('should succeed when valid request', async t => {
-//   const req: Request = {
-//     headers: {
-//       'x-auth-id': 'myId',
-//       'x-auth-secret': 'mySecret'
-//     },
-//     body: {
-//       search_text: 'myname',
-//       site_id: 'mysite',
-//       endpoint: 'http://example.com'
-//     }
-//   };
-//
-//   setUpMockServers('mysite', [ {
-//     id: 1,
-//     name: {
-//       default: 'simple'
-//     },
-//     image: {abs_url: 'simple-cat.jpg'}
-//   } ]);
-//
-//   const res = new SimpleResponse();
-//   const subject = new productSearch(getToken);
-//   await subject.search(req, res);
-//
-//   t.is(res.code, 200)
-// });
-
-// test.serial('should fail when unable to get token', async t => {
-//   const req: Request = {
-//     headers: {
-//       'x-auth-id': 'myId',
-//       'x-auth-secret': 'mySecret'
-//     },
-//     body: {
-//       search_text: 'myname',
-//       site_id: 'mysite',
-//       endpoint: 'http://example.com'
-//     }
-//   };
-//
-//   setUpMockServers('mysite', [ {
-//     id: 1,
-//     name: {
-//       default: 'simple'
-//     },
-//     image: {abs_url: 'simple-cat.jpg'}
-//   } ], 403);
-//
-//   const res = new SimpleResponse();
-//   const subject = new productSearch(getToken);
-//   await subject.search(req, res);
-//
-//   t.is(res.code, 500);
-//   t.is(res.body.code, 'TOKEN_ERROR');
-// });
-
-test.serial('should fail when unable to get response from sfcc', async t => {
+test('should succeed when valid request', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
@@ -76,6 +19,68 @@ test.serial('should fail when unable to get response from sfcc', async t => {
   };
 
   setUpMockServers('mysite', [ {
+    id: 1,
+    name: {
+      default: 'simple'
+    },
+    image: {abs_url: 'simple-cat.jpg'}
+  } ],
+      200,
+      200,
+      'http://example.com');
+
+  const res = new SimpleResponse();
+  const subject = new productSearch(getToken);
+  await subject.search(req, res);
+
+  t.is(res.code, 200)
+});
+
+test.serial('should fail when unable to get token', async t => {
+  const req: Request = {
+    headers: {
+      'x-auth-id': 'myId',
+      'x-auth-secret': 'mySecret'
+    },
+    body: {
+      search_text: 'myname',
+      site_id: 'mysite',
+      endpoint: 'http://example2.com'
+    }
+  };
+
+  setUpMockServers('mysite', [ {
+    id: 1,
+    name: {
+      default: 'simple'
+    },
+    image: {abs_url: 'simple-cat.jpg'}
+  } ], 403,
+      200,
+      'http://example2.com');
+
+  const res = new SimpleResponse();
+  const subject = new productSearch(getToken);
+  await subject.search(req, res);
+
+  t.is(res.code, 500);
+  t.is(res.body.code, 'TOKEN_ERROR');
+});
+
+test.serial('should fail when unable to get response from sfcc', async t => {
+  const req: Request = {
+    headers: {
+      'x-auth-id': 'myId',
+      'x-auth-secret': 'mySecret'
+    },
+    body: {
+      search_text: 'myname',
+      site_id: 'mysite',
+      endpoint: 'http://example3.com'
+    }
+  };
+
+  setUpMockServers('mysite', [ {
         id: 1,
         name: {
           default: 'simple'
@@ -83,7 +88,8 @@ test.serial('should fail when unable to get response from sfcc', async t => {
         image: {abs_url: 'simple-cat.jpg'}
       } ],
       200,
-      504);
+      504,
+      'http://example3.com');
 
   const res = new SimpleResponse();
   const subject = new productSearch(getToken);
@@ -97,7 +103,8 @@ function setUpMockServers(
     siteId: string,
     results: any[],
     tokenCode: number = 200,
-    sfccCode: number = 200) {
+    sfccCode: number = 200,
+    serverPath: string) {
   nock('https://account.demandware.com')
       .post('/dw/oauth2/access_token')
       .reply(tokenCode, {
@@ -105,12 +112,13 @@ function setUpMockServers(
         expires_in: 2303208
       });
 
-  nock('http://example.com')
+  nock(serverPath)
       .post(`/s/-/dw/data/v19_10/product_search?site_id=${ siteId }`)
       .reply(sfccCode, {
         hits: results,
         total: results.length
       });
+
 }
 
 class SimpleResponse implements Response {

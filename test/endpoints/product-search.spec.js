@@ -43,62 +43,7 @@ var nock_1 = __importDefault(require("nock"));
 var ava_1 = __importDefault(require("ava"));
 var product_search_1 = __importDefault(require("../../endpoints/product-search"));
 var get_token_1 = __importDefault(require("../../endpoints/get-token"));
-// test('should succeed when valid request', async t => {
-//   const req: Request = {
-//     headers: {
-//       'x-auth-id': 'myId',
-//       'x-auth-secret': 'mySecret'
-//     },
-//     body: {
-//       search_text: 'myname',
-//       site_id: 'mysite',
-//       endpoint: 'http://example.com'
-//     }
-//   };
-//
-//   setUpMockServers('mysite', [ {
-//     id: 1,
-//     name: {
-//       default: 'simple'
-//     },
-//     image: {abs_url: 'simple-cat.jpg'}
-//   } ]);
-//
-//   const res = new SimpleResponse();
-//   const subject = new productSearch(getToken);
-//   await subject.search(req, res);
-//
-//   t.is(res.code, 200)
-// });
-// test.serial('should fail when unable to get token', async t => {
-//   const req: Request = {
-//     headers: {
-//       'x-auth-id': 'myId',
-//       'x-auth-secret': 'mySecret'
-//     },
-//     body: {
-//       search_text: 'myname',
-//       site_id: 'mysite',
-//       endpoint: 'http://example.com'
-//     }
-//   };
-//
-//   setUpMockServers('mysite', [ {
-//     id: 1,
-//     name: {
-//       default: 'simple'
-//     },
-//     image: {abs_url: 'simple-cat.jpg'}
-//   } ], 403);
-//
-//   const res = new SimpleResponse();
-//   const subject = new productSearch(getToken);
-//   await subject.search(req, res);
-//
-//   t.is(res.code, 500);
-//   t.is(res.body.code, 'TOKEN_ERROR');
-// });
-ava_1["default"].serial('should fail when unable to get response from sfcc', function (t) { return __awaiter(_this, void 0, void 0, function () {
+ava_1["default"]('should succeed when valid request', function (t) { return __awaiter(_this, void 0, void 0, function () {
     var req, res, subject;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -120,7 +65,74 @@ ava_1["default"].serial('should fail when unable to get response from sfcc', fun
                             "default": 'simple'
                         },
                         image: { abs_url: 'simple-cat.jpg' }
-                    }], 200, 504);
+                    }], 200, 200, 'http://example.com');
+                res = new SimpleResponse();
+                subject = new product_search_1["default"](get_token_1["default"]);
+                return [4 /*yield*/, subject.search(req, res)];
+            case 1:
+                _a.sent();
+                t.is(res.code, 200);
+                return [2 /*return*/];
+        }
+    });
+}); });
+ava_1["default"].serial('should fail when unable to get token', function (t) { return __awaiter(_this, void 0, void 0, function () {
+    var req, res, subject;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                req = {
+                    headers: {
+                        'x-auth-id': 'myId',
+                        'x-auth-secret': 'mySecret'
+                    },
+                    body: {
+                        search_text: 'myname',
+                        site_id: 'mysite',
+                        endpoint: 'http://example2.com'
+                    }
+                };
+                setUpMockServers('mysite', [{
+                        id: 1,
+                        name: {
+                            "default": 'simple'
+                        },
+                        image: { abs_url: 'simple-cat.jpg' }
+                    }], 403, 200, 'http://example2.com');
+                res = new SimpleResponse();
+                subject = new product_search_1["default"](get_token_1["default"]);
+                return [4 /*yield*/, subject.search(req, res)];
+            case 1:
+                _a.sent();
+                t.is(res.code, 500);
+                t.is(res.body.code, 'TOKEN_ERROR');
+                return [2 /*return*/];
+        }
+    });
+}); });
+ava_1["default"].serial('should fail when unable to get response from sfcc', function (t) { return __awaiter(_this, void 0, void 0, function () {
+    var req, res, subject;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                req = {
+                    headers: {
+                        'x-auth-id': 'myId',
+                        'x-auth-secret': 'mySecret'
+                    },
+                    body: {
+                        search_text: 'myname',
+                        site_id: 'mysite',
+                        endpoint: 'http://example3.com'
+                    }
+                };
+                setUpMockServers('mysite', [{
+                        id: 1,
+                        name: {
+                            "default": 'simple'
+                        },
+                        image: { abs_url: 'simple-cat.jpg' }
+                    }], 200, 504, 'http://example3.com');
                 res = new SimpleResponse();
                 subject = new product_search_1["default"](get_token_1["default"]);
                 return [4 /*yield*/, subject.search(req, res)];
@@ -132,7 +144,7 @@ ava_1["default"].serial('should fail when unable to get response from sfcc', fun
         }
     });
 }); });
-function setUpMockServers(siteId, results, tokenCode, sfccCode) {
+function setUpMockServers(siteId, results, tokenCode, sfccCode, serverPath) {
     if (tokenCode === void 0) { tokenCode = 200; }
     if (sfccCode === void 0) { sfccCode = 200; }
     nock_1["default"]('https://account.demandware.com')
@@ -141,7 +153,7 @@ function setUpMockServers(siteId, results, tokenCode, sfccCode) {
         access_token: 'myToken',
         expires_in: 2303208
     });
-    nock_1["default"]('http://example.com')
+    nock_1["default"](serverPath)
         .post("/s/-/dw/data/v19_10/product_search?site_id=" + siteId)
         .reply(sfccCode, {
         hits: results,
