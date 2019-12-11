@@ -21,7 +21,6 @@ async function getProducts(req, res, query, params, tokenSupplier, PAGE_SIZE = 2
     const {site_id, endpoint, page = 0} = params;
     const start = PAGE_SIZE * page;
     const rejectUnauthorized = !config.isDev;
-    logger.info(site_id, endpoint, page);
     await request.post({
       rejectUnauthorized,
       url: _.trimEnd(endpoint, '/') + config.apiPath + '/product_search',
