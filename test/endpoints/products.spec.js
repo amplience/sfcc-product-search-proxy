@@ -66,7 +66,7 @@ ava_1["default"]('find products by Id should fail when sfcc returns 500', functi
                             "default": 'simple'
                         },
                         image: { abs_url: 'simple-cat.jpg' }
-                    }], 200, 504);
+                    }], 200, 504, 'http://example.com');
                 res = new simple_response_1.SimpleResponse();
                 subject = new products_js_1["default"](get_token_1["default"]);
                 return [4 /*yield*/, subject.find(req, res)];
@@ -78,7 +78,7 @@ ava_1["default"]('find products by Id should fail when sfcc returns 500', functi
         }
     });
 }); });
-function setUpMockServers(siteId, results, tokenCode, sfccCode) {
+function setUpMockServers(siteId, results, tokenCode, sfccCode, serverPath) {
     if (tokenCode === void 0) { tokenCode = 200; }
     if (sfccCode === void 0) { sfccCode = 200; }
     nock_1["default"]('https://account.demandware.com')
@@ -87,7 +87,7 @@ function setUpMockServers(siteId, results, tokenCode, sfccCode) {
         access_token: 'myToken',
         expires_in: 2303208
     });
-    nock_1["default"]('http://example.com')
+    nock_1["default"](serverPath)
         .post("/s/-/dw/data/v19_10/product_search?site_id=" + siteId)
         .reply(sfccCode, {
         hits: results,

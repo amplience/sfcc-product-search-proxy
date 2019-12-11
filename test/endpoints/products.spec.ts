@@ -26,7 +26,8 @@ test('find products by Id should fail when sfcc returns 500', async t => {
         image: {abs_url: 'simple-cat.jpg'}
       } ],
       200,
-      504);
+      504,
+      'http://example.com');
 
   const res = new SimpleResponse();
   const subject = new products(getToken);
@@ -40,18 +41,20 @@ function setUpMockServers(
     siteId: string,
     results: any[],
     tokenCode: number = 200,
-    sfccCode: number = 200) {
-  nock('https://account.demandware.com')
-      .post('/dw/oauth2/access_token')
-      .reply(tokenCode, {
-        access_token: 'myToken',
-        expires_in: 2303208
-      });
+    sfccCode: number = 200,
+    serverPath: string) {
+    nock('https://account.demandware.com')
+        .post('/dw/oauth2/access_token')
+        .reply(tokenCode, {
+            access_token: 'myToken',
+            expires_in: 2303208
+        });
 
-  nock('http://example.com')
-      .post(`/s/-/dw/data/v19_10/product_search?site_id=${ siteId }`)
-      .reply(sfccCode, {
-        hits: results,
-        total: results.length
-      });
+    nock(serverPath)
+        .post(`/s/-/dw/data/v19_10/product_search?site_id=${ siteId }`)
+        .reply(sfccCode, {
+            hits: results,
+            total: results.length
+        });
+
 }
