@@ -3,7 +3,7 @@ export interface Request {
     'x-auth-id': string,
     'x-auth-secret': string
   },
-  body?: {
+  body: {
     search_text: string,
     catalog_id?: string,
     site_id: string,

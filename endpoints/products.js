@@ -1,6 +1,6 @@
 const getProducts = require('./get-products');
 
-function products(req, res) {
+async function products(req, res) {
   const {ids} = req.query;
   const query = {
     term_query: {
@@ -10,7 +10,7 @@ function products(req, res) {
     }
   };
   const PAGE_SIZE = 100;
-  getProducts(req, res, query, req.query, PAGE_SIZE);
+  await getProducts(req, res, query, req.query, PAGE_SIZE);
 }
 
 module.exports = products;

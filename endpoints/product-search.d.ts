@@ -1,4 +1,9 @@
-import { Response } from './model/response.js';
-import { Request } from './model/request.js';
+import { Response } from './model/response';
+import { Request } from './model/request';
+import { TokenSupplier } from './token-supplier';
 
-export default function productSearch(req: Request, res: Response): void;
+export default class productSearch {
+  constructor(tokenSupplier: TokenSupplier);
+
+  search(req: Request, res: Response): void;
+}
