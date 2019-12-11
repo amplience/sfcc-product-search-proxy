@@ -1,9 +1,9 @@
 import nock from 'nock';
 import test from 'ava';
-import { Response } from '../../endpoints/model/response';
 import { Request } from '../../endpoints/model/request';
 import productSearch from '../../endpoints/product-search';
 import getToken from '../../endpoints/get-token';
+import { SimpleResponse } from '../simple-response';
 
 // test('should succeed when valid request', async t => {
 //   const req: Request = {
@@ -113,18 +113,4 @@ function setUpMockServers(
       });
 }
 
-class SimpleResponse implements Response {
-  public code?: number;
-  public body?: any;
 
-  status(code: number): Response {
-    console.log(`got value set in resp`);
-    this.code = code;
-    return this;
-  }
-
-  json(json: any): any {
-    this.body = json;
-    return this;
-  }
-}

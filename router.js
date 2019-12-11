@@ -8,6 +8,6 @@ const tokenSupplier = require('./endpoints/get-token');
 const products = require('./endpoints/products');
 
 router.post('/product-search', validate(validation.productSearch), new productSearch(tokenSupplier).search);
-router.get('/products', validate(validation.products), products);
+router.get('/products', validate(validation.products), new products(tokenSupplier).find);
 
 module.exports = router;
