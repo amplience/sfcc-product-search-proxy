@@ -8,7 +8,7 @@ import certificate = require('@aws-cdk/aws-certificatemanager');
 const sha256File = require('sha256-file');
 const stackPrefix = process.env.STACK_NAME || 'GenericSFCCProxyServer';
 const domainName: string = process.env.DOMAIN_NAME!;
-const certARN: string = process.env.CERTTIFICATE_ARN!;
+const certARN: string = process.env.CERTIFICATE_ARN!;
 
 export class SFCCProductSearchServerProxyStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -37,7 +37,7 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
         certificate: certificate.Certificate.fromCertificateArn(this, 'sfcc-proxy-certificate', certARN)
       },
       restApiName: 'sfcc-proxy-api',
-      description: 'Proxy server for deploying sfcc ui extension.'
+      description: 'Proxy server for deploying sfcc ui extension.',
     });
 
     const proxyserver = new apigateway.LambdaIntegration(handler, {
@@ -50,6 +50,7 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
+console.log(certARN)
 console.log(`STACK_NAME: "${ stackPrefix }"`);
 new SFCCProductSearchServerProxyStack(app, stackPrefix + 'Service');
 app.synth();
