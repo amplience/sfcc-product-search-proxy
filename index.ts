@@ -30,27 +30,66 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
 
     const sha = sha256File('./package.json');
     handler.addVersion(sha);
+    //
+    // const api = new apigateway.RestApi(this, 'sfcc-proxy-api', {
+    //   domainName: {
+    //     domainName: domainName,
+    //     certificate: certificate.Certificate.fromCertificateArn(this, 'sfcc-proxy-certificate', certARN)
+    //   },
+    //   restApiName: 'sfcc-proxy-api',
+    //   description: 'Proxy server for deploying sfcc ui extension.',
+    // });
 
-    const api = new apigateway.RestApi(this, 'sfcc-proxy-api', {
+    const proxyApi = new apigateway.LambdaRestApi(this, 'sfcc-proxy-rest-api', {
       domainName: {
         domainName: domainName,
         certificate: certificate.Certificate.fromCertificateArn(this, 'sfcc-proxy-certificate', certARN)
       },
       restApiName: 'sfcc-proxy-api',
       description: 'Proxy server for deploying sfcc ui extension.',
+      handler: handler,
+      proxy: false
     });
 
-    const proxyserver = new apigateway.LambdaIntegration(handler, {
-      requestTemplates: {'application/json': '{ "statusCode": "200" }'}
-    });
+    const productsById = proxyApi.root.addResource('products');
+    productsById.addMethod('GET');
+    addCorsOptions(productsById);
 
-    api.root.addMethod('GET', proxyserver);
-    api.root.addMethod('POST', proxyserver);
+    const productsSearch = proxyApi.root.addResource('product-search');
+    productsSearch.addMethod('POST');
+    addCorsOptions(productsSearch);
+
   }
 }
 
+// const corsResponse = new apigateway.MockIntegration({
+//   integrationResponses: [ {
+//     statusCode: '200',
+//     responseParameters: {
+//       'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent\'',
+//       'method.response.header.Access-Control-Allow-Origin': '\'*\'',
+//       'method.response.header.Access-Control-Allow-Credentials': '\'false\'',
+//       'method.response.header.Access-Control-Allow-Methods': '\'OPTIONS,GET,PUT,POST,DELETE\'',
+//     },
+//   } ],
+//   passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+//   requestTemplates: {
+//     'application/json': '{"statusCode": 200}'
+//   },
+// });
 const app = new cdk.App();
-console.log(certARN)
+console.log(certARN);
 console.log(`STACK_NAME: "${ stackPrefix }"`);
 new SFCCProductSearchServerProxyStack(app, stackPrefix + 'Service');
 app.synth();
+
+
+export function addCorsOptions(apiResource: apigateway.IResource) {
+  apiResource.addCorsPreflight({
+    statusCode: 200,
+    allowOrigins: apigateway.Cors.ALL_ORIGINS,
+    allowCredentials: false,
+    allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+    allowMethods: apigateway.Cors.ALL_METHODS,
+  });
+}
