@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "test": "ava --serial",
+    "test": "ava test/endpoints/*.spec.js",
     "build": "tsc",
     "watch": "NODE_ENV=development nodemon ./bin/www",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
