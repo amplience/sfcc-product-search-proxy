@@ -1,44 +1,47 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-exports.__esModule = true;
-var cdk = require("@aws-cdk/core");
-var lambda = require("@aws-cdk/aws-lambda");
-var iam = require("@aws-cdk/aws-iam");
-var sha256File = require('sha256-file');
-var stackPrefix = process.env.STACK_NAME || 'GenericSFCCProxyServer';
-var SFCCProductSearchServerProxyStack = /** @class */ (function (_super) {
-    __extends(SFCCProductSearchServerProxyStack, _super);
-    function SFCCProductSearchServerProxyStack(scope, id, props) {
-        var _this = _super.call(this, scope, id, props) || this;
-        var handler = new lambda.Function(_this, stackPrefix + "Handler", {
+Object.defineProperty(exports, "__esModule", { value: true });
+const cdk = require("@aws-cdk/core");
+const apigateway = require("@aws-cdk/aws-apigateway");
+const lambda = require("@aws-cdk/aws-lambda");
+const iam = require("@aws-cdk/aws-iam");
+const certificate = require("@aws-cdk/aws-certificatemanager");
+const sha256File = require('sha256-file');
+const stackPrefix = process.env.STACK_NAME || 'GenericSFCCProxyServer';
+const domainName = process.env.DOMAIN_NAME;
+const certARN = process.env.CERTTIFICATE_ARN;
+class SFCCProductSearchServerProxyStack extends cdk.Stack {
+    constructor(scope, id, props) {
+        super(scope, id, props);
+        const handler = new lambda.Function(this, stackPrefix + 'Handler', {
             runtime: lambda.Runtime.NODEJS_8_10,
-            code: lambda.AssetCode.asset("resources"),
-            handler: "lambda-express-wrapper.handler",
-            role: new iam.Role(_this, 'AllowLambdaServiceToAssumeRole', {
+            code: lambda.AssetCode.asset('resources'),
+            description: `Generated on ${new Date().toISOString()}`,
+            handler: 'lambda-express-wrapper.handler',
+            role: new iam.Role(this, 'AllowLambdaServiceToAssumeRole', {
                 assumedBy: new iam.CompositePrincipal(new iam.ServicePrincipal('lambda.amazonaws.com'), new iam.ServicePrincipal('edgelambda.amazonaws.com')),
-                managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')]
+                managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],
             })
         });
-        var sha = sha256File('./resources');
-        handler.addVersion(':sha256:' + sha);
-        return _this;
+        const sha = sha256File('./package.json');
+        handler.addVersion(sha);
+        const api = new apigateway.RestApi(this, 'sfcc-proxy-api', {
+            domainName: {
+                domainName: domainName,
+                certificate: certificate.Certificate.fromCertificateArn(this, 'sfcc-proxy-certificate', certARN)
+            },
+            restApiName: 'sfcc-proxy-api',
+            description: 'Proxy server for deploying sfcc ui extension.'
+        });
+        const proxyserver = new apigateway.LambdaIntegration(handler, {
+            requestTemplates: { 'application/json': '{ "statusCode": "200" }' }
+        });
+        api.root.addMethod('GET', proxyserver);
+        api.root.addMethod('POST', proxyserver);
     }
-    return SFCCProductSearchServerProxyStack;
-}(cdk.Stack));
+}
 exports.SFCCProductSearchServerProxyStack = SFCCProductSearchServerProxyStack;
-var app = new cdk.App();
-console.log("STACK_NAME: \"" + stackPrefix + "\"");
-new SFCCProductSearchServerProxyStack(app, stackPrefix + "Service");
+const app = new cdk.App();
+console.log(`STACK_NAME: "${stackPrefix}"`);
+new SFCCProductSearchServerProxyStack(app, stackPrefix + 'Service');
 app.synth();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLHFDQUFzQztBQUN0QyxzREFBdUQ7QUFDdkQsOENBQStDO0FBQy9DLHdDQUF5QztBQUN6QywrREFBZ0U7QUFHaEUsTUFBTSxVQUFVLEdBQUcsT0FBTyxDQUFDLGFBQWEsQ0FBQyxDQUFDO0FBQzFDLE1BQU0sV0FBVyxHQUFHLE9BQU8sQ0FBQyxHQUFHLENBQUMsVUFBVSxJQUFJLHdCQUF3QixDQUFDO0FBQ3ZFLE1BQU0sVUFBVSxHQUFXLE9BQU8sQ0FBQyxHQUFHLENBQUMsV0FBWSxDQUFDO0FBQ3BELE1BQU0sT0FBTyxHQUFXLE9BQU8sQ0FBQyxHQUFHLENBQUMsZ0JBQWlCLENBQUM7QUFFdEQsTUFBYSxpQ0FBa0MsU0FBUSxHQUFHLENBQUMsS0FBSztJQUM5RCxZQUFZLEtBQWMsRUFBRSxFQUFVLEVBQUUsS0FBc0I7UUFDNUQsS0FBSyxDQUFDLEtBQUssRUFBRSxFQUFFLEVBQUUsS0FBSyxDQUFDLENBQUM7UUFFeEIsTUFBTSxPQUFPLEdBQUcsSUFBSSxNQUFNLENBQUMsUUFBUSxDQUFDLElBQUksRUFBRSxXQUFXLEdBQUcsU0FBUyxFQUFFO1lBQ2pFLE9BQU8sRUFBRSxNQUFNLENBQUMsT0FBTyxDQUFDLFdBQVc7WUFDbkMsSUFBSSxFQUFFLE1BQU0sQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLFdBQVcsQ0FBQztZQUN6QyxXQUFXLEVBQUUsZ0JBQWlCLElBQUksSUFBSSxFQUFFLENBQUMsV0FBVyxFQUFHLEVBQUU7WUFDekQsT0FBTyxFQUFFLGdDQUFnQztZQUN6QyxJQUFJLEVBQUUsSUFBSSxHQUFHLENBQUMsSUFBSSxDQUFDLElBQUksRUFBRSxnQ0FBZ0MsRUFBRTtnQkFDekQsU0FBUyxFQUFFLElBQUksR0FBRyxDQUFDLGtCQUFrQixDQUNqQyxJQUFJLEdBQUcsQ0FBQyxnQkFBZ0IsQ0FBQyxzQkFBc0IsQ0FBQyxFQUNoRCxJQUFJLEdBQUcsQ0FBQyxnQkFBZ0IsQ0FBQywwQkFBMEIsQ0FBQyxDQUN2RDtnQkFDRCxlQUFlLEVBQUUsQ0FBRSxHQUFHLENBQUMsYUFBYSxDQUFDLHdCQUF3QixDQUFDLDBDQUEwQyxDQUFDLENBQUU7YUFDNUcsQ0FBQztTQUNILENBQUMsQ0FBQztRQUVILE1BQU0sR0FBRyxHQUFHLFVBQVUsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDO1FBQ3pDLE9BQU8sQ0FBQyxVQUFVLENBQUMsR0FBRyxDQUFDLENBQUM7UUFFeEIsTUFBTSxHQUFHLEdBQUcsSUFBSSxVQUFVLENBQUMsT0FBTyxDQUFDLElBQUksRUFBRSxnQkFBZ0IsRUFBRTtZQUN6RCxVQUFVLEVBQUU7Z0JBQ1YsVUFBVSxFQUFFLFVBQVU7Z0JBQ3RCLFdBQVcsRUFBRSxXQUFXLENBQUMsV0FBVyxDQUFDLGtCQUFrQixDQUFDLElBQUksRUFBRSx3QkFBd0IsRUFBRSxPQUFPLENBQUM7YUFDakc7WUFDRCxXQUFXLEVBQUUsZ0JBQWdCO1lBQzdCLFdBQVcsRUFBRSwrQ0FBK0M7U0FDN0QsQ0FBQyxDQUFDO1FBRUgsTUFBTSxXQUFXLEdBQUcsSUFBSSxVQUFVLENBQUMsaUJBQWlCLENBQUMsT0FBTyxFQUFFO1lBQzVELGdCQUFnQixFQUFFLEVBQUMsa0JBQWtCLEVBQUUseUJBQXlCLEVBQUM7U0FDbEUsQ0FBQyxDQUFDO1FBRUgsR0FBRyxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsS0FBSyxFQUFFLFdBQVcsQ0FBQyxDQUFDO1FBQ3ZDLEdBQUcsQ0FBQyxJQUFJLENBQUMsU0FBUyxDQUFDLE1BQU0sRUFBRSxXQUFXLENBQUMsQ0FBQztJQUMxQyxDQUFDO0NBQ0Y7QUFyQ0QsOEVBcUNDO0FBRUQsTUFBTSxHQUFHLEdBQUcsSUFBSSxHQUFHLENBQUMsR0FBRyxFQUFFLENBQUM7QUFDMUIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxnQkFBaUIsV0FBWSxHQUFHLENBQUMsQ0FBQztBQUM5QyxJQUFJLGlDQUFpQyxDQUFDLEdBQUcsRUFBRSxXQUFXLEdBQUcsU0FBUyxDQUFDLENBQUM7QUFDcEUsR0FBRyxDQUFDLEtBQUssRUFBRSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGNkayA9IHJlcXVpcmUoJ0Bhd3MtY2RrL2NvcmUnKTtcbmltcG9ydCBhcGlnYXRld2F5ID0gcmVxdWlyZSgnQGF3cy1jZGsvYXdzLWFwaWdhdGV3YXknKTtcbmltcG9ydCBsYW1iZGEgPSByZXF1aXJlKCdAYXdzLWNkay9hd3MtbGFtYmRhJyk7XG5pbXBvcnQgaWFtID0gcmVxdWlyZSgnQGF3cy1jZGsvYXdzLWlhbScpO1xuaW1wb3J0IGNlcnRpZmljYXRlID0gcmVxdWlyZSgnQGF3cy1jZGsvYXdzLWNlcnRpZmljYXRlbWFuYWdlcicpO1xuXG5cbmNvbnN0IHNoYTI1NkZpbGUgPSByZXF1aXJlKCdzaGEyNTYtZmlsZScpO1xuY29uc3Qgc3RhY2tQcmVmaXggPSBwcm9jZXNzLmVudi5TVEFDS19OQU1FIHx8ICdHZW5lcmljU0ZDQ1Byb3h5U2VydmVyJztcbmNvbnN0IGRvbWFpbk5hbWU6IHN0cmluZyA9IHByb2Nlc3MuZW52LkRPTUFJTl9OQU1FITtcbmNvbnN0IGNlcnRBUk46IHN0cmluZyA9IHByb2Nlc3MuZW52LkNFUlRUSUZJQ0FURV9BUk4hO1xuXG5leHBvcnQgY2xhc3MgU0ZDQ1Byb2R1Y3RTZWFyY2hTZXJ2ZXJQcm94eVN0YWNrIGV4dGVuZHMgY2RrLlN0YWNrIHtcbiAgY29uc3RydWN0b3Ioc2NvcGU6IGNkay5BcHAsIGlkOiBzdHJpbmcsIHByb3BzPzogY2RrLlN0YWNrUHJvcHMpIHtcbiAgICBzdXBlcihzY29wZSwgaWQsIHByb3BzKTtcblxuICAgIGNvbnN0IGhhbmRsZXIgPSBuZXcgbGFtYmRhLkZ1bmN0aW9uKHRoaXMsIHN0YWNrUHJlZml4ICsgJ0hhbmRsZXInLCB7XG4gICAgICBydW50aW1lOiBsYW1iZGEuUnVudGltZS5OT0RFSlNfOF8xMCxcbiAgICAgIGNvZGU6IGxhbWJkYS5Bc3NldENvZGUuYXNzZXQoJ3Jlc291cmNlcycpLFxuICAgICAgZGVzY3JpcHRpb246IGBHZW5lcmF0ZWQgb24gJHsgbmV3IERhdGUoKS50b0lTT1N0cmluZygpIH1gLFxuICAgICAgaGFuZGxlcjogJ2xhbWJkYS1leHByZXNzLXdyYXBwZXIuaGFuZGxlcicsXG4gICAgICByb2xlOiBuZXcgaWFtLlJvbGUodGhpcywgJ0FsbG93TGFtYmRhU2VydmljZVRvQXNzdW1lUm9sZScsIHtcbiAgICAgICAgYXNzdW1lZEJ5OiBuZXcgaWFtLkNvbXBvc2l0ZVByaW5jaXBhbChcbiAgICAgICAgICAgIG5ldyBpYW0uU2VydmljZVByaW5jaXBhbCgnbGFtYmRhLmFtYXpvbmF3cy5jb20nKSxcbiAgICAgICAgICAgIG5ldyBpYW0uU2VydmljZVByaW5jaXBhbCgnZWRnZWxhbWJkYS5hbWF6b25hd3MuY29tJyksXG4gICAgICAgICksXG4gICAgICAgIG1hbmFnZWRQb2xpY2llczogWyBpYW0uTWFuYWdlZFBvbGljeS5mcm9tQXdzTWFuYWdlZFBvbGljeU5hbWUoJ3NlcnZpY2Utcm9sZS9BV1NMYW1iZGFCYXNpY0V4ZWN1dGlvblJvbGUnKSBdLFxuICAgICAgfSlcbiAgICB9KTtcblxuICAgIGNvbnN0IHNoYSA9IHNoYTI1NkZpbGUoJy4vcGFja2FnZS5qc29uJyk7XG4gICAgaGFuZGxlci5hZGRWZXJzaW9uKHNoYSk7XG5cbiAgICBjb25zdCBhcGkgPSBuZXcgYXBpZ2F0ZXdheS5SZXN0QXBpKHRoaXMsICdzZmNjLXByb3h5LWFwaScsIHtcbiAgICAgIGRvbWFpbk5hbWU6IHtcbiAgICAgICAgZG9tYWluTmFtZTogZG9tYWluTmFtZSxcbiAgICAgICAgY2VydGlmaWNhdGU6IGNlcnRpZmljYXRlLkNlcnRpZmljYXRlLmZyb21DZXJ0aWZpY2F0ZUFybih0aGlzLCAnc2ZjYy1wcm94eS1jZXJ0aWZpY2F0ZScsIGNlcnRBUk4pXG4gICAgICB9LFxuICAgICAgcmVzdEFwaU5hbWU6ICdzZmNjLXByb3h5LWFwaScsXG4gICAgICBkZXNjcmlwdGlvbjogJ1Byb3h5IHNlcnZlciBmb3IgZGVwbG95aW5nIHNmY2MgdWkgZXh0ZW5zaW9uLidcbiAgICB9KTtcblxuICAgIGNvbnN0IHByb3h5c2VydmVyID0gbmV3IGFwaWdhdGV3YXkuTGFtYmRhSW50ZWdyYXRpb24oaGFuZGxlciwge1xuICAgICAgcmVxdWVzdFRlbXBsYXRlczogeydhcHBsaWNhdGlvbi9qc29uJzogJ3sgXCJzdGF0dXNDb2RlXCI6IFwiMjAwXCIgfSd9XG4gICAgfSk7XG5cbiAgICBhcGkucm9vdC5hZGRNZXRob2QoJ0dFVCcsIHByb3h5c2VydmVyKTtcbiAgICBhcGkucm9vdC5hZGRNZXRob2QoJ1BPU1QnLCBwcm94eXNlcnZlcik7XG4gIH1cbn1cblxuY29uc3QgYXBwID0gbmV3IGNkay5BcHAoKTtcbmNvbnNvbGUubG9nKGBTVEFDS19OQU1FOiBcIiR7IHN0YWNrUHJlZml4IH1cImApO1xubmV3IFNGQ0NQcm9kdWN0U2VhcmNoU2VydmVyUHJveHlTdGFjayhhcHAsIHN0YWNrUHJlZml4ICsgJ1NlcnZpY2UnKTtcbmFwcC5zeW50aCgpO1xuIl19
