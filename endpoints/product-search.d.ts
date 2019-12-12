@@ -3,7 +3,7 @@ import { Request } from './model/request';
 import { TokenSupplier } from './token-supplier';
 
 export default class productSearch {
-  constructor(tokenSupplier: TokenSupplier);
+  constructor();
 
   search(req: Request, res: Response): void;
 }

@@ -1,9 +1,6 @@
 const getProducts = require('./get-products');
 
 class productSearch {
-  constructor(tokenSupplier) {
-    this.tokenSupplier = tokenSupplier
-  }
 
   async search(req, res) {
     const {search_text, catalog_id} = req.body;
@@ -15,7 +12,7 @@ class productSearch {
         ]
       }
     };
-    await getProducts(req, res, query, req.body, this.tokenSupplier);
+    await getProducts(req, res, query, req.body);
   }
 }
 

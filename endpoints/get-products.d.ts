@@ -8,6 +8,5 @@ export default function getProducts(
     res: Response,
     query: Query,
     params: any,
-    tokenSupplier: TokenSupplier,
     PAGE_SIZE: number
 ): Promise<boolean>;
