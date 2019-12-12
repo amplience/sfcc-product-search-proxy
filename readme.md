@@ -10,10 +10,32 @@ Build locally:
 $ npm install
 $ npm run-script build
 ```
-### Running the Server Locally
+#### Running the Server Locally
 ```
 $ nodemon
 ```
+#### Terminal Scripts
+
+```
+$ npm run start
+```
+Runs the app.
+```
+$ npm run test
+```
+Runs the tests.
+```
+$ npm run build
+```
+Compiles the typescript.
+```
+$ npm run watch
+```
+Runs the app in developer mode, and automatically rebuilds the app when changes are made.
+```
+$ npm run debug
+```
+Similar to Watch, however allows debugger to be attached to the app.
 
 ### Request Parameters
 
