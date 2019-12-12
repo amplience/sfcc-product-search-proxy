@@ -4,12 +4,12 @@ const getToken = require('./get-token');
 const config = require('../config');
 const logger = require("../resources/logging/debug-logger").getLogger();
 
-async function getProducts(req, res, query, params, tokenSupplier, PAGE_SIZE = 20) {
+async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
 
   return new Promise(async (resolve) => {
     let token;
   try {
-     token = await tokenSupplier(req, res);
+     token = await getToken(req, res);
     if (!token) {
       return resolve();
     }

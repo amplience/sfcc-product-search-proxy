@@ -1,10 +1,6 @@
 const getProducts = require('./get-products');
 
 class products {
-  constructor(tokenSupplier) {
-    this.tokenSupplier = tokenSupplier
-  }
-
   async find(req, res) {
     const {ids} = req.query;
     const query = {
@@ -15,7 +11,7 @@ class products {
       }
     };
     const PAGE_SIZE = 100;
-    await getProducts(req, res, query, req.query, this.tokenSupplier, PAGE_SIZE);
+    await getProducts(req, res, query, req.query, PAGE_SIZE);
   }
 }
 
