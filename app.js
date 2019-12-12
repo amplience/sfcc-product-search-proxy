@@ -7,9 +7,6 @@ const app = express();
 app.use(cors({origin: 'null'}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(function(err, req, res, next){
-  res.status(400).json(err);
-});
 
 app.use('/', router);
 
