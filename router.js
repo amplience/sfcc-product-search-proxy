@@ -11,9 +11,9 @@ router.get('/products', validate(validation.products), new products().find);
 
 router.use((err, req, res, next)=>{
   if (err instanceof validate.ValidationError) {
-  res.status(err.status).json(err);
+    res.status(err.status).json(err);
   } else {
-  res.send(err);
+    res.send(err);
   }
 });
 
