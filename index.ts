@@ -15,8 +15,8 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
     super(scope, id, props);
 
     const handler = new lambda.Function(this, stackPrefix + 'Handler', {
-      runtime: lambda.Runtime.NODEJS_8_10,
-      code: lambda.AssetCode.asset('resources'),
+      runtime: lambda.Runtime.NODEJS_10_X,
+      code: lambda.Code.fromAsset('resources'),
       description: `Generated on ${ new Date().toISOString() }`,
       handler: 'lambda-express-wrapper.handler',
       role: new iam.Role(this, 'AllowLambdaServiceToAssumeRole', {
@@ -62,21 +62,6 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
   }
 }
 
-// const corsResponse = new apigateway.MockIntegration({
-//   integrationResponses: [ {
-//     statusCode: '200',
-//     responseParameters: {
-//       'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent\'',
-//       'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-//       'method.response.header.Access-Control-Allow-Credentials': '\'false\'',
-//       'method.response.header.Access-Control-Allow-Methods': '\'OPTIONS,GET,PUT,POST,DELETE\'',
-//     },
-//   } ],
-//   passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
-//   requestTemplates: {
-//     'application/json': '{"statusCode": 200}'
-//   },
-// });
 const app = new cdk.App();
 console.log(certARN);
 console.log(`STACK_NAME: "${ stackPrefix }"`);
