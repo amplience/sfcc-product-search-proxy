@@ -1,4 +1,4 @@
-import { Response } from '../src/endpoints/model/response';
+import { Response } from '../src/model/response';
 
 export class SimpleResponse implements Response {
   public code?: number;

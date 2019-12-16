@@ -67,3 +67,16 @@ typings/
 .vscode
 .idea
 .idea/*
+
+#ignore typescript generated files
+src/deployment/*.js
+src/deployment/*.d.ts
+
+src/model/*.js
+src/model/*.d.ts
+
+src/logging/*.js
+src/logging/*.d.ts
+
+test/**/*.js
+test/**/*.d.ts

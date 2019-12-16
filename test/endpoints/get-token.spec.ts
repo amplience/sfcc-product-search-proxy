@@ -1,6 +1,6 @@
 import nock from 'nock';
 import test from 'ava';
-import { Request } from '../../src/endpoints/model/request';
+import { Request } from '../../src/model/request';
 import getToken from '../../src/endpoints/get-token';
 import { SimpleResponse } from '../simple-response';
 

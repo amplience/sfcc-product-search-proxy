@@ -1,4 +1,4 @@
-import { Response } from '../src/endpoints/model/response';
+import { Response } from '../src/model/response';
 export declare class SimpleResponse implements Response {
     code?: number;
     body?: any;
