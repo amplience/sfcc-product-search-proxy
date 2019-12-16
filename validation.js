@@ -12,7 +12,7 @@ module.exports = {
     headers,
     body: {
       site_id: joi.string().trim().required(),
-      search_text: joi.string().min(3).trim().required(),
+      search_text: joi.string().trim().required(),
       endpoint: joi.string().uri().trim().required(),
       catalog_id: joi.string().trim().optional(),
       page: joi.number().integer().required()
