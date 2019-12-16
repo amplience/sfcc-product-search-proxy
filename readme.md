@@ -2,6 +2,8 @@
 
 # SFCC Product Search Proxy Server
 
+[![Build Status](https://travis-ci.org/amplience/sfcc-product-search-proxy.svg?branch=master)](https://travis-ci.org/amplience/sfcc-product-search-proxy)
+
 This project creates a proxy server that is meant to be used with the /\SFCC product selector ui url/\\.
 
 
@@ -113,4 +115,6 @@ http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint
     }
 }
 ```
+
+### CDK
 
