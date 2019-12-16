@@ -81,5 +81,5 @@ src/logging/*.d.ts
 test/**/*.js
 test/**/*.d.ts
 
-./cdk-deploy.js
-./cdk-deploy.d.ts
+cdk-deploy.js
+cdk-deploy.d.ts
