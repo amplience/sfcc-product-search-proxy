@@ -53,15 +53,15 @@ Similar to Watch, however allows debugger to be attached to the app.
 | catalog_id  | String | Optional | Filters products through a specified catalog |
 | page        | Int    | Required | Item return page |
 
-request;
+request example;
 
 ```
 type; POST
 endpoint; /product-search
 headers;
     Content-Type; application/json
-    x-auth-id; AUTH-ID
-    x-auth-secret; AUTH-SECRET
+    x-auth-id; {AUTH-ID}
+    x-auth-secret; {AUTH-SECRET}
     sfccUrl; https://SFCCURL
     endpoint; https://endpoint.endpoint.com
 body;
@@ -87,13 +87,13 @@ request example;
 type; GET
 endpoint; /products
 params;
-    site_id = SITEID
+    site_id = {Url to sfcc account}
     ids[] = 123456
     ids[] = 123457
 headers;
     Content-Type; application/json
-    x-auth-id; AUTH-ID
-    x-auth-secret; AUTH-SECRET
+    x-auth-id; {AUTH-ID}
+    x-auth-secret; {AUTH-SECRET}
     sfccUrl; https://SFCCURL
     endpoint; https://endpoint.endpoint.com
 
@@ -107,10 +107,10 @@ http://localhost:8080/products?site_id=SITEID&ids[]=123456&ids[]=123457
     "url": "http://localhost:3000/",
     "params": {
         "sfccUrl": https://SFCCURL,
-        "authSecret": AUTH-SECRET,
-        "authClientId": AUTH-ID,
-        "siteId": SITEID,
-        "backend": "SFCC",
+        "authSecret": {AUTH-SECRET},
+        "authClientId": {AUTH-ID},
+        "siteId": {Url to sfcc account},
+        "backend": {SFCC},
         "catalogs": []
     }
 }
