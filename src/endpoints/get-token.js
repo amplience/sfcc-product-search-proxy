@@ -24,10 +24,6 @@ async function getToken(req, res) {
   const authUrl = "https://account.demandware.com/dw/oauth2/access_token";
   const authId = req.headers['x-auth-id'];
   const authSecret = req.headers['x-auth-secret'];
-  if (!authId || !authSecret) {
-    res.status(400).json({code: 'MISSING_KEY_SECRET', message: 'authId and authSecret headers must be supplied.'});
-    return Promise.reject(false);
-  }
   const authToken = btoa(authId + ':' + authSecret);
 
   return new Promise((resolve, reject) => {

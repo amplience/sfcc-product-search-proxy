@@ -9,4 +9,12 @@ const products = require('./endpoints/products');
 router.post('/product-search', new productSearch().search);
 router.get('/products', validate(validation.products), new products().find);
 
+router.use((err, req, res, next)=>{
+  if (err instanceof validate.ValidationError) {
+    res.status(err.status).json(err);
+  } else {
+    res.send(err);
+  }
+});
+
 module.exports = router;
