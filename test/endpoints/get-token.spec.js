@@ -51,7 +51,8 @@ ava_1["default"]('should succeed when valid request', function (t) { return __aw
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://simple'
                     }
                 };
                 authToken = 'si324u223njnpipuh2pu3n4if';
@@ -73,7 +74,8 @@ ava_1["default"]('should return 500 and throw when bad request', function (t) { 
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://simple'
                     }
                 };
                 authToken = 'si324u223njnpipuh2pu3n4if';
@@ -105,7 +107,8 @@ ava_1["default"]('should return 500 and throw when server error', function (t) {
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://simple'
                     }
                 };
                 authToken = 'si324u223njnpipuh2pu3n4if';
