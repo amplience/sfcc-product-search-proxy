@@ -121,6 +121,6 @@ http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint
 If you wish to deploy the proxy server to your amazon, you can do so through the following cdk command.
 
 ```
-npm run-script build
-CERTIFICATE_ARN='{your certificate amazon resource name}' DOMAIN_NAME='{proxy-domain.certificate-domain}' Npm run-script deploy
+$ npm run-script build
+$ CERTIFICATE_ARN='{your certificate amazon resource name}' DOMAIN_NAME='{proxy-domain.certificate-domain}' Npm run-script deploy
 ```
