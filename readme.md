@@ -121,5 +121,5 @@ If you wish to deploy the proxy server to your amazon, you can do so through the
 
 ```
 $ npm run-script build
-$ CERTIFICATE_ARN='{your certificate amazon resource name}' DOMAIN_NAME='{proxy-domain.certificate-domain}' Npm run-script deploy
+$ CERTIFICATE_ARN='{your certificate amazon resource name}' DOMAIN_NAME='{proxy-domain.certificate-domain}' npm run-script deploy
 ```
