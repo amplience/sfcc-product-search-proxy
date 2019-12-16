@@ -117,6 +117,7 @@ http://localhost:8080/products?site_id=SITEID&endpoint=https://endpoint.endpoint
 ```
 
 ### CDK
+
 If you wish to deploy the proxy server to your amazon, you can do so through the following cdk command.
 
 ```
