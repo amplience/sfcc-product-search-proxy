@@ -16,9 +16,9 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
 
     const handler = new lambda.Function(this, stackPrefix + 'Handler', {
       runtime: lambda.Runtime.NODEJS_10_X,
-      code: lambda.Code.fromAsset('resources'),
+      code: lambda.Code.fromAsset('dist.zip'),
       description: `Generated on ${ new Date().toISOString() }`,
-      handler: 'lambda-express-wrapper.handler',
+      handler: 'src/index.handler',
       role: new iam.Role(this, 'AllowLambdaServiceToAssumeRole', {
         assumedBy: new iam.CompositePrincipal(
             new iam.ServicePrincipal('lambda.amazonaws.com'),
@@ -28,7 +28,7 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
       })
     });
 
-    const sha = sha256File('./package.json');
+    const sha = sha256File('./dist.zip');
     handler.addVersion(sha);
     //
     // const api = new apigateway.RestApi(this, 'sfcc-proxy-api', {
@@ -70,11 +70,16 @@ app.synth();
 
 
 export function addCorsOptions(apiResource: apigateway.IResource) {
+  const allowedHeaders = [ 'x-auth-id', 'x-auth-secret' , 'Access-Control-Allow-Origin'];
+  allowedHeaders.push(...apigateway.Cors.DEFAULT_HEADERS,);
+
+  const allowedOrigins = [ 'null' ];
+  // allowedOrigins.push(...apigateway.Cors.ALL_ORIGINS);
   apiResource.addCorsPreflight({
     statusCode: 200,
-    allowOrigins: apigateway.Cors.ALL_ORIGINS,
+    allowOrigins: allowedOrigins,
     allowCredentials: false,
-    allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+    allowHeaders: allowedHeaders,
     allowMethods: apigateway.Cors.ALL_METHODS,
   });
 }

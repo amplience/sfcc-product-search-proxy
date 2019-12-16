@@ -9,22 +9,29 @@
   "scripts": {
     "cdk": "cdk",
     "start": "node ./bin/www",
-    "build": "tsc",
+    "test": "ava test/endpoints/*.spec.js",
+    "build": "tsc & zip -r dist.zip src/* node_modules/*",
     "watch": "NODE_ENV=development nodemon ./bin/www",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
   },
-  "devDependencies": {},
-  "dependencies": {
-    "aws-cdk": "^1.18.0",
-    "typescript": "^3.6.3",
+  "devDependencies": {
     "@aws-cdk/aws-apigateway": "^1.18.0",
     "@aws-cdk/aws-certificatemanager": "^1.18.0",
     "@aws-cdk/aws-iam": "^1.18.0",
     "@aws-cdk/aws-lambda": "^1.18.0",
     "@aws-cdk/core": "^1.18.0",
+    "@types/debug": "^4.1.5",
+    "@types/mocha": "^5.2.6",
     "@types/node": "^12.12.14",
-    "aws-serverless-express": "^3.3.6",
+    "@types/nock": "^9.3.1",
+    "ava": "1.0.0-beta.7",
+    "zip": "^1.2.0"
+  },
+  "dependencies": {
+    "aws-cdk": "^1.18.0",
+    "body-parser": "^1.19.0",
     "btoa": "^1.2.1",
+    "chai": "^4.1.2",
     "commonjs": "0.0.1",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
@@ -32,10 +39,13 @@
     "express-validation": "^1.0.3",
     "joi": "^14.3.1",
     "lodash": "^4.17.15",
+    "nock": "^10.0.6",
     "nodemon": "^2.0.1",
     "request": "^2.88.0",
+    "serverless-http": "^2.3.0",
     "sha256-file": "^1.0.0",
     "ts-loader": "^5.3.3",
-    "ts-node": "^8.4.1"
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
   }
 }

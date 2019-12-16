@@ -2,19 +2,26 @@ const request = require('request');
 const _ = require('lodash');
 const getToken = require('./get-token');
 const config = require('../config');
-const logger = require("../logging/debug-logger").getLogger();;
+const logger = require("../logging/debug-logger").getLogger();
 
 async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
+
+  return new Promise(async (resolve) => {
+    let token;
   try {
-    const token = await getToken(req);
+     token = await getToken(req, res);
     if (!token) {
-      return;
+      return resolve();
     }
+  }catch (e) {
+    return resolve();
+  }
+
+  try {
     const {site_id, endpoint, page = 0} = params;
     const start = PAGE_SIZE * page;
     const rejectUnauthorized = !config.isDev;
-    logger.info(site_id, endpoint, page);
-    request.post({
+    await request.post({
       rejectUnauthorized,
       url: _.trimEnd(endpoint, '/') + config.apiPath + '/product_search',
       qs: {site_id},
@@ -29,11 +36,11 @@ async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
         select : '(**)'
       }
     },
-    (err, response, body) => {
+   async (err, response, body) => {
       if (err || response.statusCode !== 200) {
         res.status(500).json({code: 'PRODUCT_SEARCH_ERROR', message: 'Error searching for products'});
         logger.error('none 200 response from sfcc get products.', err);
-        return;
+        return resolve();
       }
       const {hits, total} = body;
       let items = [];
@@ -49,12 +56,14 @@ async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
       }
 
       res.status(200).json({items, page: pageSettings});
+      return resolve()
     });
   } catch (error) {
     logger.error('An unkown error occured', error);
     res.status(500).json({code: 'UNKNOWN', message: 'An unknown error occured'});
+    return resolve();
   }
-
+  });
 }
 
 module.exports = getProducts;

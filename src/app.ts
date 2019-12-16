@@ -10,4 +10,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', router);
 
-module.exports = app;
+export default app;
