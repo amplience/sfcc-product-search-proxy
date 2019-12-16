@@ -63,7 +63,6 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
-console.log(certARN);
 console.log(`STACK_NAME: "${ stackPrefix }"`);
 new SFCCProductSearchServerProxyStack(app, stackPrefix + 'Service');
 app.synth();

@@ -8,12 +8,12 @@ test('should succeed when valid get by ids request', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example1.com'
     },
     query: {
       ids: [ 1 ],
-      site_id: 'mysite',
-      endpoint: 'http://example1.com'
+      site_id: 'mysite'
     }
   };
 
@@ -39,12 +39,12 @@ test('should fail when unable to get token when finding by id', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example1.com'
     },
     query: {
       ids: [ 1 ],
-      site_id: 'mysite',
-      endpoint: 'http://example1.com'
+      site_id: 'mysite'
     }
   };
 
@@ -70,12 +70,12 @@ test('find products by Id should fail when sfcc returns 500', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example.com'
     },
     query: {
       ids: [ 1 ],
-      site_id: 'mysite',
-      endpoint: 'http://example.com'
+      site_id: 'mysite'
     }
   };
 

@@ -2,6 +2,7 @@ export interface Request {
     headers: {
         'x-auth-id': string;
         'x-auth-secret': string;
+        endpoint: string;
     };
     body?: Body;
     query?: Query;
@@ -15,7 +16,6 @@ interface Query extends SFCCContext {
 }
 interface SFCCContext {
     site_id: string;
-    endpoint: string;
     page?: number;
 }
 export {};

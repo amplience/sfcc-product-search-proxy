@@ -18,12 +18,13 @@ async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
   }
 
   try {
-    const {site_id, endpoint, page = 0} = params;
+    const {site_id, page = 0} = params;
+    const endpoint = _.trimEnd(req.headers.endpoint, '/');
     const start = PAGE_SIZE * page;
     const rejectUnauthorized = !config.isDev;
     await request.post({
       rejectUnauthorized,
-      url: _.trimEnd(endpoint, '/') + config.apiPath + '/product_search',
+      url: endpoint + config.apiPath + '/product_search',
       qs: {site_id},
       headers: {
         Authorization: 'Bearer ' + token

@@ -8,22 +8,22 @@ test('should succeed when valid request', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example.com'
     },
     body: {
       search_text: 'myname',
-      site_id: 'mysite',
-      endpoint: 'http://example.com'
+      site_id: 'mysite'
     }
   };
 
   setUpMockServers('mysite', [ {
-    id: 1,
-    name: {
-      default: 'simple'
-    },
-    image: {abs_url: 'simple-cat.jpg'}
-  } ],
+        id: 1,
+        name: {
+          default: 'simple'
+        },
+        image: {abs_url: 'simple-cat.jpg'}
+      } ],
       200,
       200,
       'http://example.com');
@@ -39,22 +39,22 @@ test('should fail when unable to get token', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example2.com'
     },
     body: {
       search_text: 'myname',
-      site_id: 'mysite',
-      endpoint: 'http://example2.com'
+      site_id: 'mysite'
     }
   };
 
   setUpMockServers('mysite', [ {
-    id: 1,
-    name: {
-      default: 'simple'
-    },
-    image: {abs_url: 'simple-cat.jpg'}
-  } ], 403,
+        id: 1,
+        name: {
+          default: 'simple'
+        },
+        image: {abs_url: 'simple-cat.jpg'}
+      } ], 403,
       200,
       'http://example2.com');
 
@@ -70,12 +70,12 @@ test('should fail when unable to get response from sfcc', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example3.com'
     },
     body: {
       search_text: 'myname',
-      site_id: 'mysite',
-      endpoint: 'http://example3.com'
+      site_id: 'mysite'
     }
   };
 
