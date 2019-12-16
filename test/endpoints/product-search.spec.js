@@ -42,7 +42,6 @@ exports.__esModule = true;
 var nock_1 = __importDefault(require("nock"));
 var ava_1 = __importDefault(require("ava"));
 var product_search_1 = __importDefault(require("../../endpoints/product-search"));
-var get_token_1 = __importDefault(require("../../endpoints/get-token"));
 var simple_response_1 = require("../simple-response");
 ava_1["default"]('should succeed when valid request', function (t) { return __awaiter(_this, void 0, void 0, function () {
     var req, res, subject;
@@ -52,12 +51,12 @@ ava_1["default"]('should succeed when valid request', function (t) { return __aw
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://example.com'
                     },
                     body: {
                         search_text: 'myname',
-                        site_id: 'mysite',
-                        endpoint: 'http://example.com'
+                        site_id: 'mysite'
                     }
                 };
                 setUpMockServers('mysite', [{
@@ -68,7 +67,7 @@ ava_1["default"]('should succeed when valid request', function (t) { return __aw
                         image: { abs_url: 'simple-cat.jpg' }
                     }], 200, 200, 'http://example.com');
                 res = new simple_response_1.SimpleResponse();
-                subject = new product_search_1["default"](get_token_1["default"]);
+                subject = new product_search_1["default"]();
                 return [4 /*yield*/, subject.search(req, res)];
             case 1:
                 _a.sent();
@@ -85,12 +84,12 @@ ava_1["default"]('should fail when unable to get token', function (t) { return _
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://example2.com'
                     },
                     body: {
                         search_text: 'myname',
-                        site_id: 'mysite',
-                        endpoint: 'http://example2.com'
+                        site_id: 'mysite'
                     }
                 };
                 setUpMockServers('mysite', [{
@@ -101,7 +100,7 @@ ava_1["default"]('should fail when unable to get token', function (t) { return _
                         image: { abs_url: 'simple-cat.jpg' }
                     }], 403, 200, 'http://example2.com');
                 res = new simple_response_1.SimpleResponse();
-                subject = new product_search_1["default"](get_token_1["default"]);
+                subject = new product_search_1["default"]();
                 return [4 /*yield*/, subject.search(req, res)];
             case 1:
                 _a.sent();
@@ -119,12 +118,12 @@ ava_1["default"]('should fail when unable to get response from sfcc', function (
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://example3.com'
                     },
                     body: {
                         search_text: 'myname',
-                        site_id: 'mysite',
-                        endpoint: 'http://example3.com'
+                        site_id: 'mysite'
                     }
                 };
                 setUpMockServers('mysite', [{
@@ -135,7 +134,7 @@ ava_1["default"]('should fail when unable to get response from sfcc', function (
                         image: { abs_url: 'simple-cat.jpg' }
                     }], 200, 504, 'http://example3.com');
                 res = new simple_response_1.SimpleResponse();
-                subject = new product_search_1["default"](get_token_1["default"]);
+                subject = new product_search_1["default"]();
                 return [4 /*yield*/, subject.search(req, res)];
             case 1:
                 _a.sent();

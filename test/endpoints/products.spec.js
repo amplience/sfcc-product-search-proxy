@@ -41,7 +41,6 @@ var _this = this;
 exports.__esModule = true;
 var nock_1 = __importDefault(require("nock"));
 var ava_1 = __importDefault(require("ava"));
-var get_token_1 = __importDefault(require("../../endpoints/get-token"));
 var simple_response_1 = require("../simple-response");
 var products_1 = __importDefault(require("../../endpoints/products"));
 ava_1["default"]('should succeed when valid get by ids request', function (t) { return __awaiter(_this, void 0, void 0, function () {
@@ -52,12 +51,12 @@ ava_1["default"]('should succeed when valid get by ids request', function (t) { 
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://example1.com'
                     },
                     query: {
                         ids: [1],
-                        site_id: 'mysite',
-                        endpoint: 'http://example1.com'
+                        site_id: 'mysite'
                     }
                 };
                 setUpMockServers('mysite', [{
@@ -68,7 +67,7 @@ ava_1["default"]('should succeed when valid get by ids request', function (t) { 
                         image: { abs_url: 'simple-cat.jpg' }
                     }], 200, 200, 'http://example1.com');
                 res = new simple_response_1.SimpleResponse();
-                subject = new products_1["default"](get_token_1["default"]);
+                subject = new products_1["default"]();
                 return [4 /*yield*/, subject.find(req, res)];
             case 1:
                 _a.sent();
@@ -85,12 +84,12 @@ ava_1["default"]('should fail when unable to get token when finding by id', func
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://example1.com'
                     },
                     query: {
                         ids: [1],
-                        site_id: 'mysite',
-                        endpoint: 'http://example1.com'
+                        site_id: 'mysite'
                     }
                 };
                 setUpMockServers('mysite', [{
@@ -101,7 +100,7 @@ ava_1["default"]('should fail when unable to get token when finding by id', func
                         image: { abs_url: 'simple-cat.jpg' }
                     }], 403, 200, 'http://example2.com');
                 res = new simple_response_1.SimpleResponse();
-                subject = new products_1["default"](get_token_1["default"]);
+                subject = new products_1["default"]();
                 return [4 /*yield*/, subject.find(req, res)];
             case 1:
                 _a.sent();
@@ -119,12 +118,12 @@ ava_1["default"]('find products by Id should fail when sfcc returns 500', functi
                 req = {
                     headers: {
                         'x-auth-id': 'myId',
-                        'x-auth-secret': 'mySecret'
+                        'x-auth-secret': 'mySecret',
+                        endpoint: 'http://example.com'
                     },
                     query: {
                         ids: [1],
-                        site_id: 'mysite',
-                        endpoint: 'http://example.com'
+                        site_id: 'mysite'
                     }
                 };
                 setUpMockServers('mysite', [{
@@ -135,7 +134,7 @@ ava_1["default"]('find products by Id should fail when sfcc returns 500', functi
                         image: { abs_url: 'simple-cat.jpg' }
                     }], 200, 504, 'http://example.com');
                 res = new simple_response_1.SimpleResponse();
-                subject = new products_1["default"](get_token_1["default"]);
+                subject = new products_1["default"]();
                 return [4 /*yield*/, subject.find(req, res)];
             case 1:
                 _a.sent();
