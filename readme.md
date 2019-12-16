@@ -110,7 +110,6 @@ http://localhost:8080/products?site_id=SITEID&ids[]=123456&ids[]=123457
         "authSecret": {AUTH-SECRET},
         "authClientId": {AUTH-ID},
         "siteId": {Url to sfcc account},
-        "backend": {SFCC},
         "catalogs": []
     }
 }
