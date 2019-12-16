@@ -30,15 +30,6 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
 
     const sha = sha256File('./dist.zip');
     handler.addVersion(sha);
-    //
-    // const api = new apigateway.RestApi(this, 'sfcc-proxy-api', {
-    //   domainName: {
-    //     domainName: domainName,
-    //     certificate: certificate.Certificate.fromCertificateArn(this, 'sfcc-proxy-certificate', certARN)
-    //   },
-    //   restApiName: 'sfcc-proxy-api',
-    //   description: 'Proxy server for deploying sfcc ui extension.',
-    // });
 
     const proxyApi = new apigateway.LambdaRestApi(this, 'sfcc-proxy-rest-api', {
       domainName: {
@@ -73,7 +64,6 @@ export function addCorsOptions(apiResource: apigateway.IResource) {
   allowedHeaders.push(...apigateway.Cors.DEFAULT_HEADERS,);
 
   const allowedOrigins = [ 'null' ];
-  // allowedOrigins.push(...apigateway.Cors.ALL_ORIGINS);
   apiResource.addCorsPreflight({
     statusCode: 200,
     allowOrigins: allowedOrigins,
