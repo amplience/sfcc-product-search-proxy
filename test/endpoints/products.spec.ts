@@ -9,12 +9,12 @@ test('should succeed when valid get by ids request', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example1.com'
     },
     query: {
       ids: [ 1 ],
-      site_id: 'mysite',
-      endpoint: 'http://example1.com'
+      site_id: 'mysite'
     }
   };
 
@@ -30,7 +30,7 @@ test('should succeed when valid get by ids request', async t => {
       'http://example1.com');
 
   const res = new SimpleResponse();
-  const subject = new products(getToken);
+  const subject = new products();
   await subject.find(req, res);
 
   t.is(res.code, 200)
@@ -40,12 +40,12 @@ test('should fail when unable to get token when finding by id', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example1.com'
     },
     query: {
       ids: [ 1 ],
-      site_id: 'mysite',
-      endpoint: 'http://example1.com'
+      site_id: 'mysite'
     }
   };
 
@@ -60,7 +60,7 @@ test('should fail when unable to get token when finding by id', async t => {
       'http://example2.com');
 
   const res = new SimpleResponse();
-  const subject = new products(getToken);
+  const subject = new products();
   await subject.find(req, res);
 
   t.is(res.code, 500);
@@ -71,12 +71,12 @@ test('find products by Id should fail when sfcc returns 500', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://example.com'
     },
     query: {
       ids: [ 1 ],
-      site_id: 'mysite',
-      endpoint: 'http://example.com'
+      site_id: 'mysite'
     }
   };
 
@@ -92,7 +92,7 @@ test('find products by Id should fail when sfcc returns 500', async t => {
       'http://example.com');
 
   const res = new SimpleResponse();
-  const subject = new products(getToken);
+  const subject = new products();
   await subject.find(req, res);
 
   t.is(res.code, 500);

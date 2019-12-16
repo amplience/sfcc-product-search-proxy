@@ -8,7 +8,8 @@ test('should succeed when valid request', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://simple'
     }
   };
 
@@ -26,7 +27,8 @@ test('should return 500 and throw when bad request', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://simple'
     }
   };
 
@@ -49,7 +51,8 @@ test('should return 500 and throw when server error', async t => {
   const req: Request = {
     headers: {
       'x-auth-id': 'myId',
-      'x-auth-secret': 'mySecret'
+      'x-auth-secret': 'mySecret',
+      endpoint: 'http://simple'
     }
   };
 
