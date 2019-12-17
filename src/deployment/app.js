@@ -1,5 +1,5 @@
 const express = require('express');
-const router = require('../router.js');
+const router = require('../router');
 const cors = require('cors');
 
 const app = express();
@@ -10,4 +10,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', router);
 
-export default app;
+module.exports = app;
