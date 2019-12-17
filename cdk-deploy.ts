@@ -60,7 +60,7 @@ app.synth();
 
 
 export function addCorsOptions(apiResource: apigateway.IResource) {
-  const allowedHeaders = [ 'x-auth-id', 'x-auth-secret' , 'Access-Control-Allow-Origin'];
+  const allowedHeaders = [ 'x-auth-id', 'x-auth-secret', 'Access-Control-Allow-Origin', 'endpoint' ];
   allowedHeaders.push(...apigateway.Cors.DEFAULT_HEADERS,);
 
   const allowedOrigins = [ 'null' ];
