@@ -69,6 +69,9 @@ typings/
 .idea/*
 
 #ignore typescript generated files
+src/lambda/*.js
+src/lambda/*.d.ts
+
 src/model/*.js
 src/model/*.d.ts
 
