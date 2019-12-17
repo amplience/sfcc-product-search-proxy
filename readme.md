@@ -116,10 +116,41 @@ http://localhost:8080/products?site_id=SITEID&ids[]=123456&ids[]=123457
 ```
 
 ### CDK
-
-If you wish to deploy the proxy server to your amazon, you can do so through the following cdk command.
-
+This proxy server can easily be deployed to aws lambda using CDK. To do so configure your AWS account to
+use CDK in the desired region using bootstrap, note this will not prompt for an MFA token if your acccount
+ uses MFA please use :
+ ```
+$ aws sts get-session-token --serial-number {arn of your mfa device} --token-code {code from MFA provider}
+```
+This command will return a response in the following format:
+```
+{
+    "Credentials": {
+        "SecretAccessKey": "secret-access-key",
+        "SessionToken": "temporary-session-token",
+        "Expiration": "expiration-date-time",
+        "AccessKeyId": "access-key-id"
+    }
+}
+```
+We can then use the response to export the following: 
+```
+$ export AWS_ACCESS_KEY_ID={Credentials.AccessKeyId}
+$ export AWS_SECRET_ACCESS_KEY={Credentials.SecretAccessKey}
+$ export AWS_SESSION_TOKEN={Credentials.SessionToken}
+```
+with this complete we can now bootstrap the CDK for our region:
+```
+$ cdk bootstrap
+```
+This will bootstrap the region specified in the current profile.
+After CDK has been bootstraped we need to build the dist.zip file that will be used by lambda with the 
+following:
 ```
 $ npm run-script build
-$ CERTIFICATE_ARN='{your certificate amazon resource name}' DOMAIN_NAME='{proxy-domain.certificate-domain}' npm run-script deploy
 ```
+Finally all that's left is to deploy the lambda function using CDK:
+```
+$ CERTIFICATE_ARN='{your certificate amazon resource name}' DOMAIN_NAME='{proxy-domain.certificate-domain}' cdk deploy
+```
+Please note: CDK supports profile switching using the flag ``` --profile {profile name}```
