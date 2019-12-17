@@ -18,7 +18,7 @@ export class SFCCProductSearchServerProxyStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_10_X,
       code: lambda.Code.fromAsset('dist.zip'),
       description: `Generated on ${ new Date().toISOString() }`,
-      handler: 'src/index.handler',
+      handler: 'src/lambda/index.handler',
       role: new iam.Role(this, 'AllowLambdaServiceToAssumeRole', {
         assumedBy: new iam.CompositePrincipal(
             new iam.ServicePrincipal('lambda.amazonaws.com'),
