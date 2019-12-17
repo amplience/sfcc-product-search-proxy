@@ -3,7 +3,6 @@ const getProducts = require('./get-products');
 class productSearch {
 
   async search(req, res) {
-    console.log('gup gup')
     const {search_text, catalog_id} = req.body;
     const query = {
       bool_query: {
