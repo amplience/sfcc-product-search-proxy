@@ -1,7 +1,7 @@
 import nock from 'nock';
 import test from 'ava';
-import { Request } from '../../endpoints/model/request';
-import getToken from '../../endpoints/get-token';
+import { Request } from '../../src/model/request';
+import getToken from '../../src/endpoints/get-token';
 import { SimpleResponse } from '../simple-response';
 
 test('should succeed when valid request', async t => {

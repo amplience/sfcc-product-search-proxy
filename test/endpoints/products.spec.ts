@@ -1,9 +1,8 @@
 import nock from 'nock';
 import test from 'ava';
-import { Request } from '../../endpoints/model/request';
-import getToken from '../../endpoints/get-token';
+import { Request } from '../../src/model/request';
 import { SimpleResponse } from '../simple-response';
-import products from '../../endpoints/products';
+import products from '../../src/endpoints/products';
 
 test('should succeed when valid get by ids request', async t => {
   const req: Request = {

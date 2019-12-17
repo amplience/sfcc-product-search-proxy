@@ -2,7 +2,7 @@ const request = require('request');
 const _ = require('lodash');
 const getToken = require('./get-token');
 const config = require('../config');
-const logger = require("../resources/logging/debug-logger").getLogger();
+const logger = require("../logging/debug-logger").getLogger();
 
 async function getProducts(req, res, query, params, PAGE_SIZE = 20) {
 

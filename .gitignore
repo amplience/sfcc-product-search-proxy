@@ -20,6 +20,10 @@ coverage
 # nyc test coverage
 .nyc_output
 
+.cdk.staging
+cdk.out
+dist.zip
+
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -62,3 +66,20 @@ typings/
 
 .vscode
 .idea
+.idea/*
+
+#ignore typescript generated files
+src/lambda/*.js
+src/lambda/*.d.ts
+
+src/model/*.js
+src/model/*.d.ts
+
+src/logging/*.js
+src/logging/*.d.ts
+
+test/**/*.js
+test/**/*.d.ts
+
+cdk-deploy.js
+cdk-deploy.d.ts

@@ -3,7 +3,7 @@ const btoa = require('btoa');
 
 const tokens = {};
 const ONE_MINUTE = 60000;
-const logger = require("../resources/logging/debug-logger").getLogger();
+const logger = require("../logging/debug-logger").getLogger();
 
 // Remove expired tokens
 setInterval(() => {

@@ -9,7 +9,7 @@ interface SupportLevels {
 }
 
 class DebugLoggerImpl implements DebugLogger {
-  private loggers: SupportLevels;
+  private loggers: any;
   private additionalContextFn?: () => {};
 
   constructor(namespace: string, additionalContext?: () => {}) {
