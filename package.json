@@ -9,7 +9,7 @@
   "scripts": {
     "deploy": "cdk deploy",
     "start": "node ./bin/www",
-    "test": "ava test/endpoints/*.spec.js",
+    "test": "tsc && ava test/endpoints/*.spec.js",
     "build": "tsc & zip -r dist.zip src/* node_modules/*",
     "watch": "NODE_ENV=development nodemon ./bin/www",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www"
