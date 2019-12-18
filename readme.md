@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/amplience/sfcc-product-search-proxy.svg?branch=master)](https://travis-ci.org/amplience/sfcc-product-search-proxy)
 
-This project creates a proxy server that is meant to be used with the /\SFCC product selector ui url/\\.
+This project creates a proxy server that is meant to be used with [dc-extension-product-selector](https://github.com/amplience/dc-extension-product-selector).
 
 
 ## Building
