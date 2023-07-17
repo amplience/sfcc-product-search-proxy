@@ -1,5 +1,3 @@
-[![Amplience Dynamic Content](header.png)](https://amplience.com/dynamic-content)
-
 # SFCC Product Search Proxy Server
 
 [![Build Status](https://travis-ci.org/amplience/sfcc-product-search-proxy.svg?branch=master)](https://travis-ci.org/amplience/sfcc-product-search-proxy)
