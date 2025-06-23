@@ -21,7 +21,7 @@ function tokenExpired(expires) {
 }
 
 async function getToken(req, res) {
-  const authUrl = "https://account.demandware.com/dw/oauth2/access_token";
+  const authUrl = "https://account.demandware.com/dwsso/oauth2/access_token";
   const authId = req.headers['x-auth-id'];
   const authSecret = req.headers['x-auth-secret'];
   const authToken = btoa(authId + ':' + authSecret);
